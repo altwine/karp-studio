@@ -1,35 +1,68 @@
 <!doctype html>
-<html lang="en">
+<html lang="ru">
 	<head>
 		<meta charset="UTF-8" />
-		<link rel="stylesheet" href="/src/styles.css" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Tauri App</title>
-		<script type="module" src="/src/main.ts" defer></script>
+		<title>Karp Studio</title>
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+		/>
+		<link rel="preload" href="./src/assets/fonts/font.ttf" as="font" type="font/ttf" crossorigin />
+		<link rel="stylesheet" href="./src/styles.css" />
 	</head>
-
 	<body>
-		<main class="container">
-			<h1>Welcome to Tauri</h1>
-
-			<div class="row">
-				<a href="https://vite.dev" target="_blank">
-					<img src="/src/assets/vite.svg" class="logo vite" alt="Vite logo" />
-				</a>
-				<a href="https://tauri.app" target="_blank">
-					<img src="/src/assets/tauri.svg" class="logo tauri" alt="Tauri logo" />
-				</a>
-				<a href="https://www.typescriptlang.org/docs" target="_blank">
-					<img src="/src/assets/typescript.svg" class="logo typescript" alt="typescript logo" />
-				</a>
+		<header>
+			<div id="logoContainer">
+				<span id="title">ИСР КАРП</span>
 			</div>
-			<p>Click on the Tauri logo to learn more about the framework</p>
-
-			<form class="row" id="greet-form">
-				<input id="greet-input" placeholder="Enter a name..." />
-				<button type="submit">Greet111</button>
-			</form>
-			<p id="greet-msg"></p>
-		</main>
+			<div class="filler"></div>
+			<div id="menuBar">
+				<button class="menuItem" id="runCodeButton" title="Запустить программу (F5)">
+					<i class="material-symbols-outlined">play_circle</i>
+					<span>запуск</span>
+				</button>
+				<button class="menuItem" id="referenceButton">
+					<i class="material-symbols-outlined">book_2</i>
+					<span>справка</span>
+				</button>
+			</div>
+			<div class="filler"></div>
+			<div id="windowControls">
+				<button id="minimizeWindow" class="material-symbols-outlined" title="Свернуть окно">minimize</button>
+				<button id="maximizeWindow" class="material-symbols-outlined" title="Развернуть окно">ad</button>
+				<button id="closeWindow" class="material-symbols-outlined" title="Закрыть окно">close</button>
+			</div>
+		</header>
+		<div id="mainContainer">
+			<aside id="left">Left</aside>
+			<div class="resizer" id="resizerLeft"></div>
+			<main>
+				<div id="lineNumbers"></div>
+				<textarea id="editor" placeholder="Здесь код" wrap="soft"></textarea>
+			</main>
+			<div class="resizer" id="resizerRight"></div>
+			<aside id="right"><div id="output" class="output-area"></div></aside>
+		</div>
+		<footer>Footer</footer>
+		<div id="contextMenu" class="context-menu hidden">
+			<div class="menu-item" data-action="cut">
+				<i class="material-symbols-outlined">play_circle</i>
+				<span>вырезать</span>
+			</div>
+			<div class="menu-item" data-action="copy">
+				<i class="material-symbols-outlined">play_circle</i>
+				<span>копировать</span>
+			</div>
+			<div class="menu-item" data-action="paste">
+				<i class="material-symbols-outlined">play_circle</i>
+				<span>вставить</span>
+			</div>
+			<div class="menu-item" data-action="delete">
+				<i class="material-symbols-outlined">play_circle</i>
+				<span>удалить</span>
+			</div>
+		</div>
+		<script type="module" src="./src/index.ts"></script>
 	</body>
 </html>

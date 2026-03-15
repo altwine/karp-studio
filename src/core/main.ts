@@ -1,0 +1,8 @@
+import "./controls.ts";
+import "../ui/menubar.ts";
+import "../ui/editor.ts";
+import "../interpreter/core/interpreter.ts";
+import "../ui/resizers.ts";
+import "../interpreter/lexer/lexer.ts";
+import "../ui/contextmenu/contextmenu.ts";
+import "../core/history.ts";
