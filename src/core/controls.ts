@@ -1,7 +1,7 @@
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import { ICON_DOUBLE_WINDOW, ICON_SINGLE_WINDOW } from "../ui/icons";
 
-const MAIN_WINDOW = getCurrentWindow();
+export const MAIN_WINDOW = getCurrentWindow();
 
 const MINIMIZE_WINDOW_BUTTON = document.getElementById("minimizeWindow") as HTMLButtonElement;
 const MAXIMIZE_WINDOW_BUTTON = document.getElementById("maximizeWindow") as HTMLButtonElement;

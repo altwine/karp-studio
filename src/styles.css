@@ -43,12 +43,9 @@ header {
 	border-bottom: 1px solid #3a3a3a;
 	height: 36px;
 	display: flex;
+	justify-content: space-between;
 	-webkit-app-region: drag;
 	flex-shrink: 0;
-}
-
-#logoContainer {
-	display: flex;
 }
 
 @font-face {
@@ -86,17 +83,8 @@ header {
 	font-family: "Onder";
 	font-weight: 500;
 	font-style: normal;
-	user-select: none;
 	-webkit-app-region: no-drag;
-}
-
-#windowControls,
-#logoContainer {
-	width: 260px;
-}
-
-.filler {
-	flex: 1;
+	user-select: none;
 }
 
 #menuBar,
@@ -106,6 +94,7 @@ header {
 
 #windowControls {
 	justify-content: flex-end;
+	width: 260px;
 }
 
 #runCodeButton:disabled,
@@ -270,7 +259,6 @@ footer {
 	opacity: 1;
 }
 
-/* styles.css or global styles */
 .global-progress-cursor,
 .global-progress-cursor * {
 	cursor: progress !important;
@@ -287,8 +275,18 @@ footer {
 	z-index: 1000;
 }
 
-.context-menu.hidden {
+body[data-context-target="editor"] .menu-item[data-target="editor"],
+body[data-context-target="title"] .menu-item[data-target="title"] {
+	display: flex;
+}
+
+body[data-context-target="editor"] .menu-item[data-target="title"],
+body[data-context-target="title"] .menu-item[data-target="editor"] {
 	display: none;
+}
+
+.hidden {
+	display: none !important;
 }
 
 .menu-item {

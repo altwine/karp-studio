@@ -8,10 +8,7 @@
 	</head>
 	<body>
 		<header>
-			<div id="logoContainer">
-				<span id="title">ИСР КАРП</span>
-			</div>
-			<div class="filler"></div>
+			<span id="title">ИСР КАРП</span>
 			<div id="menuBar">
 				<button class="menuItem" id="runCodeButton" title="Запустить программу (F5)">
 					<i class="icon">play_circle</i>
@@ -22,7 +19,6 @@
 					<span>справка</span>
 				</button>
 			</div>
-			<div class="filler"></div>
 			<div id="windowControls">
 				<button id="minimizeWindow" class="icon" title="Свернуть окно">minimize</button>
 				<button id="maximizeWindow" class="icon" title="Развернуть окно">ad</button>
@@ -41,21 +37,29 @@
 		</div>
 		<footer>Footer</footer>
 		<div id="contextMenu" class="context-menu hidden">
-			<div class="menu-item" data-action="cut">
+			<div class="menu-item" data-action="cut" data-target="editor">
 				<i class="icon">content_cut</i>
 				<span>вырезать</span>
 			</div>
-			<div class="menu-item" data-action="copy">
+			<div class="menu-item" data-action="copy" data-target="editor">
 				<i class="icon">content_copy</i>
 				<span>копировать</span>
 			</div>
-			<div class="menu-item" data-action="paste">
+			<div class="menu-item" data-action="paste" data-target="editor">
 				<i class="icon">content_paste</i>
 				<span>вставить</span>
 			</div>
-			<div class="menu-item" data-action="delete">
+			<div class="menu-item" data-action="delete" data-target="editor">
 				<i class="icon">delete</i>
 				<span>удалить</span>
+			</div>
+			<div class="menu-item" data-action="about" data-target="title">
+				<i class="icon">help</i>
+				<span>узнать больше</span>
+			</div>
+			<div class="menu-item" data-action="file-issue" data-target="title">
+				<i class="icon">bug_report</i>
+				<span>рассказать о баге</span>
 			</div>
 		</div>
 		<script type="module" src="./src/index.ts"></script>
