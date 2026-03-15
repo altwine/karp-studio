@@ -4,3 +4,7 @@ export const ICON_CLOSE = "close";
 export const ICON_SINGLE_WINDOW = "ad";
 export const ICON_DOUBLE_WINDOW = "select_window";
 export const ICON_MINIMIZE = "minimize";
+export const ICON_DELETE = "delete";
+export const ICON_CUT = "content_cut";
+export const ICON_COPY = "content_copy";
+export const ICON_PASTE = "content_paste";
