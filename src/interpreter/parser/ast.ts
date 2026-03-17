@@ -60,13 +60,7 @@ export interface Block extends Node {
 	statements: Statement[];
 }
 
-export type Statement =
-	| AssignmentStatement
-	| WhileStatement
-	| ReturnStatement
-	| PrintStatement
-	| SwitchStatement
-	| ExpressionStatement;
+export type Statement = AssignmentStatement | WhileStatement | ReturnStatement | SwitchStatement | ExpressionStatement;
 
 export interface AssignmentStatement extends Node {
 	type: "AssignmentStatement";
@@ -84,11 +78,6 @@ export interface WhileStatement extends Node {
 export interface ReturnStatement extends Node {
 	type: "ReturnStatement";
 	argument?: Expression;
-}
-
-export interface PrintStatement extends Node {
-	type: "PrintStatement";
-	arguments: Expression[];
 }
 
 export interface SwitchStatement extends Node {

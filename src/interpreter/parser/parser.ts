@@ -6,7 +6,6 @@ import {
 	Statement,
 	SwitchStatement,
 	ReturnStatement,
-	PrintStatement,
 	Expression,
 	WhileStatement,
 	TypeAnnotation,
@@ -201,8 +200,6 @@ class Parser {
 					return this.parseWhileStatement();
 				case "вернуть":
 					return this.parseReturnStatement();
-				case "печать":
-					return this.parsePrintStatement();
 				case "выбор":
 					return this.parseSwitchStatement();
 				default:
@@ -236,17 +233,6 @@ class Parser {
 		return {
 			type: "ReturnStatement",
 			argument,
-		};
-	}
-
-	parsePrintStatement(): PrintStatement {
-		this.consume(TokenType.KEYWORD, 'Ожидается "печать"');
-		this.consume(TokenType.LPAREN, 'Ожидается "(" после "печать"');
-		const args = this.parseArgumentList();
-		this.consume(TokenType.RPAREN, 'Ожидается ")" после аргументов');
-		return {
-			type: "PrintStatement",
-			arguments: args,
 		};
 	}
 

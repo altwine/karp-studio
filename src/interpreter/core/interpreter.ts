@@ -7,7 +7,6 @@ import {
 	Statement,
 	SwitchStatement,
 	ReturnStatement,
-	PrintStatement,
 	BinaryExpression,
 	CallExpression,
 	Expression,
@@ -96,9 +95,6 @@ export class Interpreter {
 			case "ReturnStatement":
 				yield* this.executeReturn(stmt, scope);
 				break;
-			case "PrintStatement":
-				yield* this.executePrint(stmt, scope);
-				break;
 			case "SwitchStatement":
 				yield* this.executeSwitch(stmt, scope);
 				break;
@@ -143,14 +139,6 @@ export class Interpreter {
 	private *executeReturn(stmt: ReturnStatement, scope: Scope): Generator<OutputCommand, never, unknown> {
 		const value = stmt.argument ? yield* this.evaluate(stmt.argument, scope) : 0;
 		throw new ReturnValue(value);
-	}
-
-	private *executePrint(stmt: PrintStatement, scope: Scope): Generator<OutputCommand, void, unknown> {
-		const parts: RuntimeValue[] = [];
-		for (const arg of stmt.arguments) {
-			parts.push(yield* this.evaluate(arg, scope));
-		}
-		yield { type: "print", args: parts };
 	}
 
 	private *executeSwitch(stmt: SwitchStatement, scope: Scope): Generator<OutputCommand, void, unknown> {
@@ -214,6 +202,15 @@ export class Interpreter {
 
 	private *evaluateCall(expr: CallExpression, scope: Scope): Generator<OutputCommand, RuntimeValue, unknown> {
 		const funcName = expr.callee.name;
+
+		if (funcName === "печать") {
+			const args: RuntimeValue[] = [];
+			for (const arg of expr.arguments) {
+				args.push(yield* this.evaluate(arg, scope));
+			}
+			yield { type: "print", args };
+			return 0;
+		}
 
 		if (funcName === "случайный_элемент") {
 			if (expr.arguments.length !== 1) {

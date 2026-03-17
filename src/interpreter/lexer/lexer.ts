@@ -21,7 +21,6 @@ export function createLexer(code: string): Token[] {
 		"иначе",
 		"цикл",
 		"пока",
-		"печать",
 		"целое",
 		"дробное",
 		"строка",
