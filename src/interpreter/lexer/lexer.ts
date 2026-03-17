@@ -25,6 +25,7 @@ export function createLexer(code: string): Token[] {
 		"дробное",
 		"строка",
 		"двоичное",
+		"если",
 	]);
 
 	function isRussianLetter(char: string): boolean {

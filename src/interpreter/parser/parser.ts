@@ -8,6 +8,7 @@ import {
 	ReturnStatement,
 	Expression,
 	WhileStatement,
+	IfStatement,
 	TypeAnnotation,
 	IdentifierExpression,
 	Declaration,
@@ -204,12 +205,41 @@ class Parser {
 					return this.parseReturnStatement();
 				case "выбор":
 					return this.parseSwitchStatement();
+				case "если":
+					return this.parseIfStatement();
 				default:
 					throw new Error(`Неожиданное ключевое слово: ${kw}`);
 			}
 		}
 
 		return this.parseAssignmentOrCall();
+	}
+
+	parseIfStatement(): IfStatement {
+		this.consume(TokenType.KEYWORD, 'Ожидается "если"');
+
+		const condition = this.parseExpression();
+
+		this.consume(TokenType.COLON, 'Ожидается ":" после условия');
+		this.consume(TokenType.INDENT, "Ожидается начало блока (отступ)");
+		const thenBranch = this.parseBlock();
+		this.consume(TokenType.DEDENT, "Ожидается конец блока");
+
+		let elseBranch: Block | undefined;
+		if (this.match(TokenType.KEYWORD) && this.peek()!.value === "иначе") {
+			this.next();
+			this.consume(TokenType.COLON, 'Ожидается ":" после "иначе"');
+			this.consume(TokenType.INDENT, "Ожидается начало блока иначе (отступ)");
+			elseBranch = this.parseBlock();
+			this.consume(TokenType.DEDENT, "Ожидается конец блока иначе");
+		}
+
+		return {
+			type: "IfStatement",
+			condition,
+			thenBranch,
+			elseBranch,
+		};
 	}
 
 	parseWhileStatement(): WhileStatement {

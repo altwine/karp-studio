@@ -12,6 +12,7 @@ import {
 	Expression,
 	AssignmentStatement,
 	WhileStatement,
+	IfStatement,
 } from "../parser/ast.ts";
 import { createParser } from "../parser/parser.ts";
 import { Scope } from "./scope.ts";
@@ -92,6 +93,9 @@ export class Interpreter {
 			case "WhileStatement":
 				yield* this.executeWhile(stmt, scope);
 				break;
+			case "IfStatement":
+				yield* this.executeIf(stmt, scope);
+				break;
 			case "ReturnStatement":
 				yield* this.executeReturn(stmt, scope);
 				break;
@@ -103,6 +107,16 @@ export class Interpreter {
 				break;
 			default:
 				throw new Error(`Неизвестный тип оператора: ${(stmt as any).type}`);
+		}
+	}
+
+	private *executeIf(stmt: IfStatement, scope: Scope): Generator<OutputCommand, void, unknown> {
+		const conditionValue = yield* this.evaluate(stmt.condition, scope);
+
+		if (this.isTruthy(conditionValue)) {
+			yield* this.executeBlock(stmt.thenBranch.statements, scope);
+		} else if (stmt.elseBranch) {
+			yield* this.executeBlock(stmt.elseBranch.statements, scope);
 		}
 	}
 

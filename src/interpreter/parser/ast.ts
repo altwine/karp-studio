@@ -14,7 +14,8 @@ export type NodeType =
 	| "IdentifierExpression"
 	| "LiteralExpression"
 	| "TypeAnnotation"
-	| "ExpressionStatement";
+	| "ExpressionStatement"
+	| "IfStatement";
 
 export interface Node {
 	type: NodeType;
@@ -59,7 +60,13 @@ export interface Block extends Node {
 	statements: Statement[];
 }
 
-export type Statement = AssignmentStatement | WhileStatement | ReturnStatement | SwitchStatement | ExpressionStatement;
+export type Statement =
+	| AssignmentStatement
+	| WhileStatement
+	| ReturnStatement
+	| SwitchStatement
+	| ExpressionStatement
+	| IfStatement;
 
 export interface AssignmentStatement extends Node {
 	type: "AssignmentStatement";
@@ -95,6 +102,13 @@ export interface CaseClause extends Node {
 export interface ExpressionStatement extends Node {
 	type: "ExpressionStatement";
 	expression: Expression;
+}
+
+export interface IfStatement extends Node {
+	type: "IfStatement";
+	condition: Expression;
+	thenBranch: Block;
+	elseBranch?: Block;
 }
 
 export type Expression = LiteralExpression | IdentifierExpression | CallExpression | BinaryExpression;
