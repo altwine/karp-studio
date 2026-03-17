@@ -90,6 +90,7 @@ header {
 #menuBar,
 #windowControls {
 	display: flex;
+	user-select: none;
 }
 
 #windowControls {
