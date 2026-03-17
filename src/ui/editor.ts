@@ -30,31 +30,31 @@ EDITOR.value = exampleCode;
 
 setTimeout(updateLineNumbers, 0);
 
-const MOD_KEYS = new Set(["s", "p", "w", "n", "t", "f", "u", "a"]);
-const SHIFT_MOD_KEYS = new Set(["i", "j", "c"]);
-const FUNCTION_KEYS = new Set(["f5", "f12", "f11", "tab"]);
+const MOD_KEY_CODES = new Set(["KeyS", "KeyP", "KeyW", "KeyN", "KeyT", "KeyF", "KeyU", "KeyA"]);
+const SHIFT_MOD_KEY_CODES = new Set(["KeyI", "KeyJ", "KeyC"]);
+const FUNCTION_KEYS = new Set(["F5", "F12", "F11", "Tab"]);
 
 document.addEventListener("keydown", (e) => {
-	const key = e.key.toLowerCase();
+	const code = e.code;
 	const mod = e.ctrlKey || e.metaKey;
 	const target = e.target as HTMLElement;
 
 	if (target.id === "editor") {
-		if (mod && key === "z" && !e.shiftKey) {
+		if (mod && code === "KeyZ" && !e.shiftKey) {
 			e.preventDefault();
 			if (editorHistory.undo()) {
 				updateLineNumbers();
 			}
 			return;
 		}
-		if ((mod && key === "y") || (mod && e.shiftKey && key === "z")) {
+		if ((mod && code === "KeyY") || (mod && e.shiftKey && code === "KeyZ")) {
 			e.preventDefault();
 			if (editorHistory.redo()) {
 				updateLineNumbers();
 			}
 			return;
 		}
-		if (mod && ["c", "v", "x", "a"].includes(key)) {
+		if (mod && ["KeyC", "KeyV", "KeyX", "KeyA"].includes(code)) {
 			return;
 		}
 		if (mod) {
@@ -65,19 +65,19 @@ document.addEventListener("keydown", (e) => {
 
 	if (e.repeat) return;
 
-	if (key === "f5") {
+	if (code === "F5") {
 		interpret(EDITOR.value);
 		e.preventDefault();
 		return;
 	}
 
-	if (FUNCTION_KEYS.has(key)) {
+	if (FUNCTION_KEYS.has(code)) {
 		e.preventDefault();
 		return;
 	}
 
 	if (mod) {
-		if (MOD_KEYS.has(key) || (e.shiftKey && SHIFT_MOD_KEYS.has(key))) {
+		if (MOD_KEY_CODES.has(code) || (e.shiftKey && SHIFT_MOD_KEY_CODES.has(code))) {
 			e.preventDefault();
 			return;
 		}
