@@ -2,30 +2,52 @@ import { OUTPUT_CONTAINER } from "../../ui/elements";
 import { OutputCommand } from "../core/interpreter";
 
 export async function processGenerator(generator: Generator<OutputCommand, void, unknown>) {
-	return new Promise<void>((resolve) => {
-		function processNext() {
+	return new Promise<void>((resolve, reject) => {
+		let generatorDone = false;
+		let commandQueue: OutputCommand[] = [];
+
+		function processQueue() {
 			const start = performance.now();
 
-			let commandsProcessed = 0;
-			let next = generator.next();
+			while (commandQueue.length > 0 && performance.now() - start < 16) {
+				const cmd = commandQueue.shift()!;
 
-			while (!next.done && commandsProcessed < 10 && performance.now() - start < 16) {
-				const cmd = next.value;
 				if (cmd.type === "print") {
 					OUTPUT_CONTAINER.innerHTML += cmd.args.join(" ") + "\n";
 					OUTPUT_CONTAINER.scrollTop = OUTPUT_CONTAINER.scrollHeight;
 				}
-				commandsProcessed++;
-				next = generator.next();
 			}
 
-			if (!next.done) {
-				setTimeout(processNext, 0);
+			if (!generatorDone || commandQueue.length > 0) {
+				setTimeout(processQueue, 0);
 			} else {
 				resolve();
 			}
 		}
 
-		processNext();
+		function pullCommands() {
+			try {
+				while (!generatorDone) {
+					const next = generator.next();
+
+					if (next.done) {
+						generatorDone = true;
+						break;
+					}
+
+					commandQueue.push(next.value);
+
+					if (commandQueue.length > 50) {
+						setTimeout(pullCommands, 0);
+						return;
+					}
+				}
+			} catch (e) {
+				reject(e);
+			}
+		}
+
+		pullCommands();
+		processQueue();
 	});
 }
