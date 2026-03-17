@@ -1,4 +1,5 @@
 import { MAIN_WINDOW } from "../../core/controls";
+import { Dialog } from "../dialog";
 import { EDITOR, CONTEXT_MENU, TITLE } from "../elements";
 import { copy } from "./actions/copy";
 import { cut } from "./actions/cut";
@@ -16,12 +17,8 @@ const menuActions: Record<string, (target: HTMLElement, type: string) => Promise
 	delete: _delete,
 
 	// specifics
-	"file-issue": async () => {
-		alert("open github issues");
-	},
-	about: async () => {
-		alert("open about dialog");
-	},
+	"file-issue": () => Dialog.openUrl("https://github.com/altwine/karp-studio/issues"),
+	about: () => Dialog.openInfoMessage(`Версия: ${__VERSION__}`),
 };
 
 function showContextMenu(e: MouseEvent, targetType: "editor" | "title") {

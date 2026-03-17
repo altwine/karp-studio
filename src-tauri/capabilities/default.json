@@ -11,6 +11,16 @@
 		"core:window:allow-close",
 		"core:event:allow-listen",
 		"clipboard-manager:allow-write-text",
-		"clipboard-manager:allow-read-text"
+		"clipboard-manager:allow-read-text",
+		"dialog:allow-confirm",
+		"dialog:allow-message",
+		{
+			"identifier": "opener:allow-open-url",
+			"allow": [
+				{
+					"url": "https://github.com/altwine/karp-studio/issues"
+				}
+			]
+		}
 	]
 }
