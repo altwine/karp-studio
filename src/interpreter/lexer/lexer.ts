@@ -195,10 +195,39 @@ export function createLexer(code: string): Token[] {
 			pos++;
 			continue;
 		}
-
 		if (ch === "-" && code[pos + 1] === ">") {
 			tokens.push({ type: TokenType.ARROW, value: "->" });
 			pos += 2;
+			continue;
+		}
+		if (ch === "-" && code[pos + 1] === "=") {
+			tokens.push({ type: TokenType.MINUS_ASSIGN, value: "-=" });
+			pos += 2;
+			continue;
+		}
+		if (ch === "*" && code[pos + 1] === "=") {
+			tokens.push({ type: TokenType.MULTIPLY_ASSIGN, value: "*=" });
+			pos += 2;
+			continue;
+		}
+		if (ch === "/" && code[pos + 1] === "=") {
+			tokens.push({ type: TokenType.DIVIDE_ASSIGN, value: "/=" });
+			pos += 2;
+			continue;
+		}
+		if (ch === "-") {
+			tokens.push({ type: TokenType.MINUS, value: "-" });
+			pos++;
+			continue;
+		}
+		if (ch === "*") {
+			tokens.push({ type: TokenType.MULTIPLY, value: "*" });
+			pos++;
+			continue;
+		}
+		if (ch === "/") {
+			tokens.push({ type: TokenType.DIVIDE, value: "/" });
+			pos++;
 			continue;
 		}
 

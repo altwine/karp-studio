@@ -118,11 +118,32 @@ export class Interpreter {
 				scope.assign(varName, value);
 				break;
 			case "+=":
+			case "-=":
+			case "*=":
+			case "/=":
 				const current = scope.get(varName);
 				if (typeof current !== "number" || typeof value !== "number") {
-					throw new Error('Оператор "+=" применим только к числам');
+					throw new Error(`Оператор "${stmt.operator}" применим только к числам`);
 				}
-				scope.assign(varName, current + value);
+				let result: number;
+				switch (stmt.operator) {
+					case "+=":
+						result = current + value;
+						break;
+					case "-=":
+						result = current - value;
+						break;
+					case "*=":
+						result = current * value;
+						break;
+					case "/=":
+						if (value === 0) throw new Error("Деление на ноль");
+						result = current / value;
+						break;
+					default:
+						throw new Error(`Неизвестный оператор присваивания: ${stmt.operator}`);
+				}
+				scope.assign(varName, result);
 				break;
 			default:
 				throw new Error(`Неизвестный оператор присваивания: ${stmt.operator}`);
@@ -179,10 +200,23 @@ export class Interpreter {
 
 		switch (expr.operator) {
 			case "+":
+			case "-":
+			case "*":
+			case "/":
 				if (typeof left !== "number" || typeof right !== "number") {
-					throw new Error('Оператор "+" применим только к числам');
+					throw new Error(`Оператор "${expr.operator}" применим только к числам`);
 				}
-				return left + right;
+				switch (expr.operator) {
+					case "+":
+						return left + right;
+					case "-":
+						return left - right;
+					case "*":
+						return left * right;
+					case "/":
+						if (right === 0) throw new Error("Деление на ноль");
+						return left / right;
+				}
 			case "<":
 				if (typeof left !== "number" || typeof right !== "number") {
 					throw new Error('Оператор "<" применим только к числам');

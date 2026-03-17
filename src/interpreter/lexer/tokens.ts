@@ -16,6 +16,12 @@ export enum TokenType {
 	ASSIGN_REF = "ASSIGN_REF", // :=
 	PLUS = "PLUS", // +
 	PLUS_ASSIGN = "PLUS_ASSIGN", // +=
+	MINUS = "MINUS", // -
+	MINUS_ASSIGN = "MINUS_ASSIGN", // -=
+	MULTIPLY = "MULTIPLY", // *
+	MULTIPLY_ASSIGN = "MULTIPLY_ASSIGN", // *=
+	DIVIDE = "DIVIDE", // /
+	DIVIDE_ASSIGN = "DIVIDE_ASSIGN", // /=
 	LESS = "LESS", // <
 	LESS_EQUAL = "LESS_EQUAL", // <=
 	EQUAL = "EQUAL", // ==
@@ -44,6 +50,12 @@ export const TokenDisplay: Record<TokenType, string> = {
 	[TokenType.ASSIGN_REF]: ":=",
 	[TokenType.PLUS]: "+",
 	[TokenType.PLUS_ASSIGN]: "+=",
+	[TokenType.MINUS]: "-",
+	[TokenType.MINUS_ASSIGN]: "-=",
+	[TokenType.MULTIPLY]: "*",
+	[TokenType.MULTIPLY_ASSIGN]: "*=",
+	[TokenType.DIVIDE]: "/",
+	[TokenType.DIVIDE_ASSIGN]: "/=",
 	[TokenType.LESS]: "<",
 	[TokenType.LESS_EQUAL]: "<=",
 	[TokenType.EQUAL]: "==",
@@ -61,6 +73,12 @@ export function isOperator(token: Token): boolean {
 		TokenType.ASSIGN_REF,
 		TokenType.PLUS,
 		TokenType.PLUS_ASSIGN,
+		TokenType.MINUS,
+		TokenType.MINUS_ASSIGN,
+		TokenType.MULTIPLY,
+		TokenType.MULTIPLY_ASSIGN,
+		TokenType.DIVIDE,
+		TokenType.DIVIDE_ASSIGN,
 		TokenType.LESS,
 		TokenType.LESS_EQUAL,
 		TokenType.EQUAL,

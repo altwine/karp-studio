@@ -7,7 +7,6 @@ export type NodeType =
 	| "AssignmentStatement"
 	| "WhileStatement"
 	| "ReturnStatement"
-	| "PrintStatement"
 	| "SwitchStatement"
 	| "CaseClause"
 	| "BinaryExpression"
@@ -65,7 +64,7 @@ export type Statement = AssignmentStatement | WhileStatement | ReturnStatement |
 export interface AssignmentStatement extends Node {
 	type: "AssignmentStatement";
 	left: IdentifierExpression;
-	operator: ":=" | "=" | "+=";
+	operator: ":=" | "=" | "+=" | "-=" | "*=" | "/=";
 	right: Expression;
 }
 
@@ -119,6 +118,6 @@ export interface CallExpression extends Node {
 export interface BinaryExpression extends Node {
 	type: "BinaryExpression";
 	left: Expression;
-	operator: "+" | "<" | "<=" | "==";
+	operator: "+" | "-" | "*" | "/" | "<" | "<=" | "==";
 	right: Expression;
 }

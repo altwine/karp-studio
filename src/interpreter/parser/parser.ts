@@ -18,7 +18,9 @@ import {
 
 export function createParser(tokens: Token[]): Program {
 	const parser = new Parser(tokens);
-	return parser.parseProgram();
+	const program = parser.parseProgram();
+	console.log(program);
+	return program;
 }
 
 class Parser {
@@ -287,13 +289,40 @@ class Parser {
 			name: leftTok.value as string,
 		};
 
-		if (this.match(TokenType.ASSIGN, TokenType.ASSIGN_REF, TokenType.PLUS_ASSIGN)) {
+		if (
+			this.match(
+				TokenType.ASSIGN,
+				TokenType.ASSIGN_REF,
+				TokenType.PLUS_ASSIGN,
+				TokenType.MINUS_ASSIGN,
+				TokenType.MULTIPLY_ASSIGN,
+				TokenType.DIVIDE_ASSIGN,
+			)
+		) {
 			const opTok = this.next();
-			let operator: ":=" | "=" | "+=";
-			if (opTok.type === TokenType.ASSIGN_REF) operator = ":=";
-			else if (opTok.type === TokenType.ASSIGN) operator = "=";
-			else if (opTok.type === TokenType.PLUS_ASSIGN) operator = "+=";
-			else throw new Error("Неизвестный оператор присваивания");
+			let operator: ":=" | "=" | "+=" | "-=" | "*=" | "/=";
+			switch (opTok.type) {
+				case TokenType.ASSIGN_REF:
+					operator = ":=";
+					break;
+				case TokenType.ASSIGN:
+					operator = "=";
+					break;
+				case TokenType.PLUS_ASSIGN:
+					operator = "+=";
+					break;
+				case TokenType.MINUS_ASSIGN:
+					operator = "-=";
+					break;
+				case TokenType.MULTIPLY_ASSIGN:
+					operator = "*=";
+					break;
+				case TokenType.DIVIDE_ASSIGN:
+					operator = "/=";
+					break;
+				default:
+					throw new Error("Неизвестный оператор присваивания");
+			}
 
 			const right = this.parseExpression();
 			return {
@@ -346,13 +375,31 @@ class Parser {
 	}
 
 	private parseAdditive(): Expression {
+		let left = this.parseMultiplicative();
+		while (this.match(TokenType.PLUS, TokenType.MINUS)) {
+			const opTok = this.next();
+			const operator = opTok.type === TokenType.PLUS ? "+" : "-";
+			const right = this.parseMultiplicative();
+			left = {
+				type: "BinaryExpression",
+				left,
+				operator,
+				right,
+			};
+		}
+		return left;
+	}
+
+	private parseMultiplicative(): Expression {
 		let left = this.parsePrimary();
-		while (this.match(TokenType.PLUS)) {
+		while (this.match(TokenType.MULTIPLY, TokenType.DIVIDE)) {
+			const opTok = this.next();
+			const operator = opTok.type === TokenType.MULTIPLY ? "*" : "/";
 			const right = this.parsePrimary();
 			left = {
 				type: "BinaryExpression",
 				left,
-				operator: "+",
+				operator,
 				right,
 			};
 		}
