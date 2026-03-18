@@ -3,7 +3,8 @@ export const TITLE = document.getElementById("title") as HTMLButtonElement;
 export const RUN_CODE_BUTTON = document.getElementById("runCodeButton") as HTMLButtonElement;
 export const REFERENCE_BUTTON = document.getElementById("referenceButton") as HTMLButtonElement;
 
-export const OUTPUT_CONTAINER = document.getElementById("output") as HTMLDivElement;
+export const TEXT_OUTPUT_CONTAINER = document.getElementById("text-output") as HTMLDivElement;
+export const GRAPHICS_OUTPUT_CONTAINER = document.getElementById("graphics-output") as HTMLCanvasElement;
 export const LEFT_PANEL_DIV = document.getElementById("left") as HTMLDivElement;
 export const RIGHT_PANEL_DIV = document.getElementById("right") as HTMLDivElement;
 export const LEFT_RESIZER = document.getElementById("resizerLeft") as HTMLDivElement;

@@ -16,13 +16,26 @@ import {
 } from "../parser/ast.ts";
 import { createParser } from "../parser/parser.ts";
 import { Scope } from "./scope.ts";
-import { OUTPUT_CONTAINER, RUN_CODE_BUTTON } from "../../ui/elements.ts";
+import { TEXT_OUTPUT_CONTAINER, RUN_CODE_BUTTON } from "../../ui/elements.ts";
 import { setProgressCursor } from "../../ui/cursor.ts";
 
 export type RuntimeValue = number | string;
 
 export type OutputCommand = {
-	type: "print";
+	type: "print" | "turtle";
+	command?:
+		| "showTurtle"
+		| "hideTurtle"
+		| "home"
+		| "clear"
+		| "penColor"
+		| "penWidth"
+		| "penDown"
+		| "penUp"
+		| "left"
+		| "right"
+		| "backward"
+		| "forward";
 	args: RuntimeValue[];
 };
 
@@ -281,6 +294,119 @@ export class Interpreter {
 			return enumInfo.members[randomIndex];
 		}
 
+		if (funcName === "вперед" || funcName === "вперёд") {
+			if (expr.arguments.length !== 1) {
+				throw new Error(`Функция "${funcName}" ожидает 1 аргумент (расстояние)`);
+			}
+			const distance = yield* this.evaluate(expr.arguments[0], scope);
+			if (typeof distance !== "number") {
+				throw new Error(`Расстояние должно быть числом`);
+			}
+			yield { type: "turtle", command: "forward", args: [distance] };
+			return 0;
+		}
+
+		if (funcName === "назад") {
+			if (expr.arguments.length !== 1) {
+				throw new Error(`Функция "назад" ожидает 1 аргумент (расстояние)`);
+			}
+			const distance = yield* this.evaluate(expr.arguments[0], scope);
+			if (typeof distance !== "number") {
+				throw new Error(`Расстояние должно быть числом`);
+			}
+			yield { type: "turtle", command: "backward", args: [distance] };
+			return 0;
+		}
+
+		if (funcName === "направо") {
+			if (expr.arguments.length !== 1) {
+				throw new Error(`Функция "направо" ожидает 1 аргумент (угол)`);
+			}
+			const angle = yield* this.evaluate(expr.arguments[0], scope);
+			if (typeof angle !== "number") {
+				throw new Error(`Угол должен быть числом`);
+			}
+			yield { type: "turtle", command: "right", args: [angle] };
+			return 0;
+		}
+
+		if (funcName === "налево") {
+			if (expr.arguments.length !== 1) {
+				throw new Error(`Функция "налево" ожидает 1 аргумент (угол)`);
+			}
+			const angle = yield* this.evaluate(expr.arguments[0], scope);
+			if (typeof angle !== "number") {
+				throw new Error(`Угол должен быть числом`);
+			}
+			yield { type: "turtle", command: "left", args: [angle] };
+			return 0;
+		}
+
+		if (funcName === "поднять_перо") {
+			yield { type: "turtle", command: "penUp", args: [] };
+			return 0;
+		}
+
+		if (funcName === "опустить_перо") {
+			yield { type: "turtle", command: "penDown", args: [] };
+			return 0;
+		}
+
+		if (funcName === "толщина_пера") {
+			if (expr.arguments.length !== 1) {
+				throw new Error(`Функция "толщина_пера" ожидает 1 аргумент (толщина)`);
+			}
+			const width = yield* this.evaluate(expr.arguments[0], scope);
+			if (typeof width !== "number") {
+				throw new Error(`Толщина должна быть числом`);
+			}
+			yield { type: "turtle", command: "penWidth", args: [width] };
+			return 0;
+		}
+
+		if (funcName === "цвет_пера") {
+			if (expr.arguments.length !== 3 && expr.arguments.length !== 1) {
+				throw new Error(`Функция "цвет_пера" ожидает 1 (hex) или 3 (r,g,b) аргумента`);
+			}
+
+			if (expr.arguments.length === 3) {
+				const r = yield* this.evaluate(expr.arguments[0], scope);
+				const g = yield* this.evaluate(expr.arguments[1], scope);
+				const b = yield* this.evaluate(expr.arguments[2], scope);
+				if (typeof r !== "number" || typeof g !== "number" || typeof b !== "number") {
+					throw new Error(`Цвета должны быть числами`);
+				}
+				yield { type: "turtle", command: "penColor", args: [r, g, b] };
+			} else {
+				const color = yield* this.evaluate(expr.arguments[0], scope);
+				if (typeof color !== "string") {
+					throw new Error(`Цвет должен быть строкой`);
+				}
+				yield { type: "turtle", command: "penColor", args: [color] };
+			}
+			return 0;
+		}
+
+		if (funcName === "очистить") {
+			yield { type: "turtle", command: "clear", args: [] };
+			return 0;
+		}
+
+		if (funcName === "домой") {
+			yield { type: "turtle", command: "home", args: [] };
+			return 0;
+		}
+
+		if (funcName === "спрятать_черепаху") {
+			yield { type: "turtle", command: "hideTurtle", args: [] };
+			return 0;
+		}
+
+		if (funcName === "показать_черепаху") {
+			yield { type: "turtle", command: "showTurtle", args: [] };
+			return 0;
+		}
+
 		const funcDecl = this.functions.get(funcName);
 		if (!funcDecl) {
 			throw new Error(`Функция "${funcName}" не определена`);
@@ -326,7 +452,7 @@ export async function interpret(code: string) {
 
 	try {
 		const perfStart = performance.now();
-		OUTPUT_CONTAINER.innerHTML = "";
+		TEXT_OUTPUT_CONTAINER.innerHTML = "";
 
 		const tokens = createLexer(code);
 		const ast = createParser(tokens);
@@ -337,10 +463,10 @@ export async function interpret(code: string) {
 
 		const perfEnd = performance.now();
 		const perfDelta = Math.ceil(perfEnd - perfStart);
-		OUTPUT_CONTAINER.insertAdjacentText("beforeend", `Программа ${ast.name} исполнена (${perfDelta} мс.)`);
-		OUTPUT_CONTAINER.scrollTop = OUTPUT_CONTAINER.scrollHeight;
+		TEXT_OUTPUT_CONTAINER.insertAdjacentText("beforeend", `Программа ${ast.name} исполнена (${perfDelta} мс.)`);
+		TEXT_OUTPUT_CONTAINER.scrollTop = TEXT_OUTPUT_CONTAINER.scrollHeight;
 	} catch (e: any) {
-		OUTPUT_CONTAINER.innerHTML = `<span style="color:red;">${e.message}</span>`;
+		TEXT_OUTPUT_CONTAINER.innerHTML = `<span style="color:red;">${e.message}</span>`;
 	}
 
 	setProgressCursor(false);
