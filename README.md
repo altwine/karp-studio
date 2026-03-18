@@ -1,7 +1,35 @@
-# Tauri + Vanilla TS
+# ИСР КАРП
+**Интегрированная Среда Разработки КАРП** - десктопное приложение для обучения программированию на языке КАРП.
 
-This template should help get you started developing with Tauri in vanilla HTML, CSS and Typescript.
+## Возможности
+- Полноценный интерпретатор языка КАРП
+- Черепашья графика с отрисовкой в реальном времени
 
-## Recommended IDE Setup
+## Установка
+### Из релизов
+Скачать последнюю версию под свою ОС можно на [странице релизов](https://github.com/altwine/karp-studio/releases).
 
-- [VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+### Сборка из исходников
+```bash
+$ git clone https://github.com/altwine/karp-studio.git
+$ cd karp-studio
+$ npm install
+$ cargo install tauri-cli
+$ npm run tauri build
+```
+
+## Пример кода
+```
+алг Квадрат
+
+цвет_пера(255, 0, 0)
+
+счёт := 0
+пока счёт < 4:
+    вперед(100)
+    направо(90)
+    счёт += 1
+```
+
+# Лицензия
+Проект распространяется под лицензией Apache 2.0. Подробнее см. в файле [LICENSE](./LICENSE).
