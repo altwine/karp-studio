@@ -13,7 +13,6 @@ export async function paste(target: HTMLElement) {
 			target.selectionEnd = start + text.length;
 			target.dispatchEvent(new Event("input", { bubbles: true }));
 		}
-		console.log("Paste", target);
 	} catch (err) {
 		console.error("Paste failed:", err);
 	}

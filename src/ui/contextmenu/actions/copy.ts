@@ -23,5 +23,4 @@ export async function copy(target: HTMLElement) {
 
 		await writeText(text);
 	}
-	console.log("Copy", target);
 }

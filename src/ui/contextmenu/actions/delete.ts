@@ -38,5 +38,4 @@ export function _delete(target: HTMLElement) {
 		target.selectionEnd = start;
 		target.dispatchEvent(new Event("input", { bubbles: true }));
 	}
-	console.log("Delete", target);
 }

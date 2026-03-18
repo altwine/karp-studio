@@ -20,7 +20,6 @@ import {
 export function createParser(tokens: Token[]): Program {
 	const parser = new Parser(tokens);
 	const program = parser.parseProgram();
-	console.log(program);
 	return program;
 }
 

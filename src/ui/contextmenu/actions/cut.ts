@@ -50,5 +50,4 @@ export async function cut(target: HTMLElement) {
 		target.selectionEnd = start;
 		target.dispatchEvent(new Event("input", { bubbles: true }));
 	}
-	console.log("Cut", target);
 }
