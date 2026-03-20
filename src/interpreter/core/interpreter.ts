@@ -57,6 +57,9 @@ export class Interpreter {
 
 	constructor(private program: Program) {
 		this.globalScope = new Scope();
+
+		this.globalScope.declare("ПИ", Math.PI);
+		this.globalScope.declare("ФИ", 1.6180339887);
 	}
 
 	public *run(): Generator<OutputCommand, void, unknown> {
@@ -271,6 +274,84 @@ export class Interpreter {
 			}
 			yield { type: "print", args };
 			return 0;
+		}
+
+		if (funcName === "синус") {
+			if (expr.arguments.length !== 1) {
+				throw new Error('Функция "синус" ожидает 1 аргумент (угол в градусах)');
+			}
+			const angleDeg = yield* this.evaluate(expr.arguments[0], scope);
+			if (typeof angleDeg !== "number") {
+				throw new Error("Угол должен быть числом");
+			}
+			const angleRad = (angleDeg * Math.PI) / 180;
+			return Math.sin(angleRad);
+		}
+
+		if (funcName === "косинус") {
+			if (expr.arguments.length !== 1) {
+				throw new Error('Функция "косинус" ожидает 1 аргумент (угол в градусах)');
+			}
+			const angleDeg = yield* this.evaluate(expr.arguments[0], scope);
+			if (typeof angleDeg !== "number") {
+				throw new Error("Угол должен быть числом");
+			}
+			const angleRad = (angleDeg * Math.PI) / 180;
+			return Math.cos(angleRad);
+		}
+
+		if (funcName === "тангенс") {
+			if (expr.arguments.length !== 1) {
+				throw new Error('Функция "тангенс" ожидает 1 аргумент (угол в градусах)');
+			}
+			const angleDeg = yield* this.evaluate(expr.arguments[0], scope);
+			if (typeof angleDeg !== "number") {
+				throw new Error("Угол должен быть числом");
+			}
+			const angleRad = (angleDeg * Math.PI) / 180;
+			return Math.tan(angleRad);
+		}
+
+		if (funcName === "арксинус") {
+			if (expr.arguments.length !== 1) {
+				throw new Error('Функция "арксинус" ожидает 1 аргумент (число от -1 до 1)');
+			}
+			const x = yield* this.evaluate(expr.arguments[0], scope);
+			if (typeof x !== "number") {
+				throw new Error("Аргумент должен быть числом");
+			}
+			if (x < -1 || x > 1) {
+				throw new Error("Аргумент арксинуса должен быть в диапазоне [-1, 1]");
+			}
+			const angleRad = Math.asin(x);
+			return (angleRad * 180) / Math.PI;
+		}
+
+		if (funcName === "арккосинус") {
+			if (expr.arguments.length !== 1) {
+				throw new Error('Функция "арккосинус" ожидает 1 аргумент (число от -1 до 1)');
+			}
+			const x = yield* this.evaluate(expr.arguments[0], scope);
+			if (typeof x !== "number") {
+				throw new Error("Аргумент должен быть числом");
+			}
+			if (x < -1 || x > 1) {
+				throw new Error("Аргумент арккосинуса должен быть в диапазоне [-1, 1]");
+			}
+			const angleRad = Math.acos(x);
+			return (angleRad * 180) / Math.PI;
+		}
+
+		if (funcName === "арктангенс") {
+			if (expr.arguments.length !== 1) {
+				throw new Error('Функция "арктангенс" ожидает 1 аргумент (число)');
+			}
+			const x = yield* this.evaluate(expr.arguments[0], scope);
+			if (typeof x !== "number") {
+				throw new Error("Аргумент должен быть числом");
+			}
+			const angleRad = Math.atan(x);
+			return (angleRad * 180) / Math.PI;
 		}
 
 		if (funcName === "случайный_элемент") {
