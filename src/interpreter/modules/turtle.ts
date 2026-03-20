@@ -108,6 +108,7 @@ export const Turtle = {
 		y = CONTAINER_SIZE_Y / 2;
 		angle = 0;
 		if (visible) Turtle.drawTurtle();
+		drawGrid();
 	},
 
 	drawTurtle: () => {
@@ -115,6 +116,86 @@ export const Turtle = {
 	},
 	clearTurtle: () => {},
 };
+
+function getGridStep(): number {
+	const targetScreenSpacing = 50;
+	const rawStep = targetScreenSpacing / scale;
+	const niceSteps = [1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000];
+	let bestStep = niceSteps[0];
+	let minDiff = Math.abs(rawStep - bestStep);
+	for (const step of niceSteps) {
+		const diff = Math.abs(rawStep - step);
+		if (diff < minDiff) {
+			minDiff = diff;
+			bestStep = step;
+		}
+	}
+	return bestStep;
+}
+
+function drawGrid() {
+	const step = getGridStep();
+	if (step <= 0) return;
+
+	const leftWorld = -offsetX / scale;
+	const rightWorld = (CONTAINER_SIZE_X - offsetX) / scale;
+	const topWorld = -offsetY / scale;
+	const bottomWorld = (CONTAINER_SIZE_Y - offsetY) / scale;
+
+	const startX = Math.floor(leftWorld / step) * step;
+	const endX = Math.ceil(rightWorld / step) * step;
+	const startY = Math.floor(topWorld / step) * step;
+	const endY = Math.ceil(bottomWorld / step) * step;
+
+	ctx.save();
+	ctx.strokeStyle = "#ddd";
+	ctx.lineWidth = 1;
+
+	for (let x = startX; x <= endX; x += step) {
+		const screenX = x * scale + offsetX;
+		ctx.beginPath();
+		ctx.moveTo(screenX, 0);
+		ctx.lineTo(screenX, CONTAINER_SIZE_Y);
+		ctx.stroke();
+	}
+
+	for (let y = startY; y <= endY; y += step) {
+		const screenY = y * scale + offsetY;
+		ctx.beginPath();
+		ctx.moveTo(0, screenY);
+		ctx.lineTo(CONTAINER_SIZE_X, screenY);
+		ctx.stroke();
+	}
+
+	ctx.restore();
+}
+
+function drawLineWithOffset(fromX: number, fromY: number, toX: number, toY: number) {
+	ctx.beginPath();
+	ctx.strokeStyle = penColor;
+	ctx.lineWidth = penWidth;
+	ctx.moveTo(fromX * scale + offsetX, fromY * scale + offsetY);
+	ctx.lineTo(toX * scale + offsetX, toY * scale + offsetY);
+	ctx.stroke();
+}
+
+function redrawAll() {
+	ctx.clearRect(0, 0, CONTAINER_SIZE_X, CONTAINER_SIZE_Y);
+	drawGrid();
+
+	commands.forEach((cmd) => {
+		ctx.beginPath();
+		ctx.strokeStyle = cmd.color;
+		ctx.lineWidth = cmd.width;
+		ctx.moveTo(cmd.fromX * scale + offsetX, cmd.fromY * scale + offsetY);
+		ctx.lineTo(cmd.toX * scale + offsetX, cmd.toY * scale + offsetY);
+		ctx.stroke();
+	});
+
+	if (visible) {
+		Turtle.drawTurtle();
+	}
+}
 
 GRAPHICS_OUTPUT_CONTAINER.addEventListener("mousedown", (e) => {
 	isDragging = true;
@@ -169,29 +250,3 @@ GRAPHICS_OUTPUT_CONTAINER.addEventListener(
 	},
 	{ passive: false },
 );
-
-function drawLineWithOffset(fromX: number, fromY: number, toX: number, toY: number) {
-	ctx.beginPath();
-	ctx.strokeStyle = penColor;
-	ctx.lineWidth = penWidth;
-	ctx.moveTo(fromX * scale + offsetX, fromY * scale + offsetY);
-	ctx.lineTo(toX * scale + offsetX, toY * scale + offsetY);
-	ctx.stroke();
-}
-
-function redrawAll() {
-	ctx.clearRect(0, 0, CONTAINER_SIZE_X, CONTAINER_SIZE_Y);
-
-	commands.forEach((cmd) => {
-		ctx.beginPath();
-		ctx.strokeStyle = cmd.color;
-		ctx.lineWidth = cmd.width;
-		ctx.moveTo(cmd.fromX * scale + offsetX, cmd.fromY * scale + offsetY);
-		ctx.lineTo(cmd.toX * scale + offsetX, cmd.toY * scale + offsetY);
-		ctx.stroke();
-	});
-
-	if (visible) {
-		Turtle.drawTurtle();
-	}
-}
