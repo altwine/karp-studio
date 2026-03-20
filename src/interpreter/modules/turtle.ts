@@ -7,10 +7,12 @@ const CONTAINER_SIZE_Y = GRAPHICS_OUTPUT_CONTAINER.height;
 let x = CONTAINER_SIZE_X / 4;
 let y = CONTAINER_SIZE_Y / 4;
 let angle = 0;
+let bgColor = "aliceblue";
 let penDown = true;
 let penColor = "#000000";
 let penWidth = 2;
 let visible = true;
+let grid = false;
 
 let offsetX = 0;
 let offsetY = 0;
@@ -76,6 +78,16 @@ export const Turtle = {
 		if (width > 0) penWidth = width;
 	},
 
+	setBgColor: (r: number, g: number, b: number) => {
+		bgColor = `rgb(${r}, ${g}, ${b})`;
+		GRAPHICS_OUTPUT_CONTAINER.style.backgroundColor = bgColor;
+	},
+
+	setBgColorHex: (color: string) => {
+		bgColor = color;
+		GRAPHICS_OUTPUT_CONTAINER.style.backgroundColor = bgColor;
+	},
+
 	setPenColor: (r: number, g: number, b: number) => {
 		penColor = `rgb(${r}, ${g}, ${b})`;
 	},
@@ -108,7 +120,15 @@ export const Turtle = {
 		y = CONTAINER_SIZE_Y / 2;
 		angle = 0;
 		if (visible) Turtle.drawTurtle();
-		drawGrid();
+		if (grid) drawGrid();
+	},
+
+	enableGrid: () => {
+		grid = true;
+	},
+
+	disableGrid: () => {
+		grid = false;
 	},
 
 	drawTurtle: () => {
@@ -180,8 +200,9 @@ function drawLineWithOffset(fromX: number, fromY: number, toX: number, toY: numb
 }
 
 function redrawAll() {
+	GRAPHICS_OUTPUT_CONTAINER.style.backgroundColor = bgColor;
 	ctx.clearRect(0, 0, CONTAINER_SIZE_X, CONTAINER_SIZE_Y);
-	drawGrid();
+	if (grid) drawGrid();
 
 	commands.forEach((cmd) => {
 		ctx.beginPath();

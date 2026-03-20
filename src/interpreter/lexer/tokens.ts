@@ -24,6 +24,8 @@ export enum TokenType {
 	DIVIDE_ASSIGN = "DIVIDE_ASSIGN", // /=
 	LESS = "LESS", // <
 	LESS_EQUAL = "LESS_EQUAL", // <=
+	GREATER = "GREATER", // >
+	GREATER_EQUAL = "GREATER_EQUAL", // >=
 	EQUAL = "EQUAL", // ==
 
 	INDENT = "INDENT",
@@ -58,6 +60,8 @@ export const TokenDisplay: Record<TokenType, string> = {
 	[TokenType.DIVIDE_ASSIGN]: "/=",
 	[TokenType.LESS]: "<",
 	[TokenType.LESS_EQUAL]: "<=",
+	[TokenType.GREATER]: ">",
+	[TokenType.GREATER_EQUAL]: ">=",
 	[TokenType.EQUAL]: "==",
 	[TokenType.INDENT]: "отступ",
 	[TokenType.DEDENT]: "конец_отступа",
@@ -81,6 +85,8 @@ export function isOperator(token: Token): boolean {
 		TokenType.DIVIDE_ASSIGN,
 		TokenType.LESS,
 		TokenType.LESS_EQUAL,
+		TokenType.GREATER,
+		TokenType.GREATER_EQUAL,
 		TokenType.EQUAL,
 	].includes(token.type);
 }

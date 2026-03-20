@@ -41,6 +41,19 @@ export async function processGenerator(generator: Generator<OutputCommand, void,
 						case "penWidth":
 							Turtle.setPenWidth(cmd.args[0] as number);
 							break;
+						case "enableGrid":
+							Turtle.enableGrid();
+							break;
+						case "disableGrid":
+							Turtle.disableGrid();
+							break;
+						case "bgColor":
+							if (cmd.args.length === 3) {
+								Turtle.setBgColor(cmd.args[0] as number, cmd.args[1] as number, cmd.args[2] as number);
+							} else {
+								Turtle.setBgColorHex(cmd.args[0] as string);
+							}
+							break;
 						case "penColor":
 							if (cmd.args.length === 3) {
 								Turtle.setPenColor(cmd.args[0] as number, cmd.args[1] as number, cmd.args[2] as number);

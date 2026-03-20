@@ -385,11 +385,21 @@ class Parser {
 
 	private parseComparison(): Expression {
 		let left = this.parseAdditive();
-		while (this.match(TokenType.LESS, TokenType.LESS_EQUAL, TokenType.EQUAL)) {
+		while (
+			this.match(
+				TokenType.LESS,
+				TokenType.LESS_EQUAL,
+				TokenType.GREATER,
+				TokenType.GREATER_EQUAL,
+				TokenType.EQUAL,
+			)
+		) {
 			const opTok = this.next();
-			let operator: "<" | "<=" | "==";
+			let operator: "<" | "<=" | ">" | ">=" | "==";
 			if (opTok.type === TokenType.LESS) operator = "<";
 			else if (opTok.type === TokenType.LESS_EQUAL) operator = "<=";
+			else if (opTok.type === TokenType.GREATER) operator = ">";
+			else if (opTok.type === TokenType.GREATER_EQUAL) operator = ">=";
 			else operator = "==";
 
 			const right = this.parseAdditive();

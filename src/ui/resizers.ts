@@ -1,7 +1,7 @@
 import { LEFT_PANEL_DIV, LEFT_RESIZER, RIGHT_PANEL_DIV, RIGHT_RESIZER } from "./elements";
 
 const MIN_WIDTH = 150;
-const MAX_WIDTH = 400;
+const MAX_WIDTH = 480;
 
 let currentResizer: HTMLElement | null = null;
 let startX = 0;

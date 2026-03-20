@@ -196,7 +196,13 @@ aside#right {
 }
 
 #graphics-output {
-	background-color: white;
+	background-color: aliceblue;
+	width: 450px;
+	height: 450px;
+	min-width: 450px;
+	min-height: 450px;
+	max-width: 450px;
+	max-height: 450px;
 }
 
 main {
@@ -249,6 +255,7 @@ footer {
 	border-top: 1px solid #3a3a3a;
 	flex-shrink: 0;
 	height: 36px;
+	user-select: none;
 }
 
 .resizer {

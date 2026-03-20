@@ -1,7 +1,6 @@
 import { EDITOR, LINE_NUMBERS, STATUS_BAR_CURSOR_POSITION } from "./elements.ts";
-
-import exampleCode from "../../примеры/рыбалка.карп?raw";
 import { EDITOR_HISTORY } from "./keybinds.ts";
+import exampleCode from "../../примеры/рыбалка.карп?raw";
 
 export function updateLineNumbers() {
 	const lineCount = EDITOR.value.split("\n").length;

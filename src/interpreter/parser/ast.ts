@@ -132,6 +132,6 @@ export interface CallExpression extends Node {
 export interface BinaryExpression extends Node {
 	type: "BinaryExpression";
 	left: Expression;
-	operator: "+" | "-" | "*" | "/" | "<" | "<=" | "==";
+	operator: "+" | "-" | "*" | "/" | "<" | "<=" | ">" | ">=" | "==";
 	right: Expression;
 }

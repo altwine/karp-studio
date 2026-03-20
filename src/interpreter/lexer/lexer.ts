@@ -265,6 +265,17 @@ export function createLexer(code: string): Token[] {
 			continue;
 		}
 
+		if (ch === ">") {
+			if (code[pos + 1] === "=") {
+				tokens.push({ type: TokenType.GREATER_EQUAL, value: ">=" });
+				pos += 2;
+			} else {
+				tokens.push({ type: TokenType.GREATER, value: ">" });
+				pos++;
+			}
+			continue;
+		}
+
 		if (ch === '"') {
 			pos++;
 			let start = pos;

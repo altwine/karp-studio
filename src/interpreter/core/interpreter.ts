@@ -28,6 +28,9 @@ export type OutputCommand = {
 		| "hideTurtle"
 		| "home"
 		| "clear"
+		| "enableGrid"
+		| "disableGrid"
+		| "bgColor"
 		| "penColor"
 		| "penWidth"
 		| "penDown"
@@ -257,6 +260,16 @@ export class Interpreter {
 					throw new Error('Оператор "<=" применим только к числам');
 				}
 				return left <= right ? 1 : 0;
+			case ">":
+				if (typeof left !== "number" || typeof right !== "number") {
+					throw new Error('Оператор ">" применим только к числам');
+				}
+				return left > right ? 1 : 0;
+			case ">=":
+				if (typeof left !== "number" || typeof right !== "number") {
+					throw new Error('Оператор ">=" применим только к числам');
+				}
+				return left >= right ? 1 : 0;
 			case "==":
 				return left === right ? 1 : 0;
 			default:
@@ -274,6 +287,22 @@ export class Interpreter {
 			}
 			yield { type: "print", args };
 			return 0;
+		}
+
+		if (funcName === "случайное_число") {
+			if (expr.arguments.length !== 2) {
+				throw new Error('Функция "случайное_число" ожидает 2 аргумента');
+			}
+			const arg1 = yield* this.evaluate(expr.arguments[0], scope);
+			if (typeof arg1 !== "number") {
+				throw new Error('Функция "случайное_число" ожидает число 1 аргументом');
+			}
+			const arg2 = yield* this.evaluate(expr.arguments[1], scope);
+			if (typeof arg2 !== "number") {
+				throw new Error('Функция "случайное_число" ожидает число 2 аргументом');
+			}
+			const min = Math.ceil(arg1);
+			return Math.floor(Math.random() * (Math.floor(arg2) - min + 1)) + min;
 		}
 
 		if (funcName === "синус") {
@@ -442,6 +471,39 @@ export class Interpreter {
 				throw new Error(`Толщина должна быть числом`);
 			}
 			yield { type: "turtle", command: "penWidth", args: [width] };
+			return 0;
+		}
+
+		if (funcName === "включить_сетку") {
+			yield { type: "turtle", command: "enableGrid", args: [] };
+			return 0;
+		}
+
+		if (funcName === "выключить_сетку") {
+			yield { type: "turtle", command: "disableGrid", args: [] };
+			return 0;
+		}
+
+		if (funcName === "цвет_фона") {
+			if (expr.arguments.length !== 3 && expr.arguments.length !== 1) {
+				throw new Error(`Функция "цвет_фона" ожидает 1 (hex) или 3 (r,g,b) аргумента`);
+			}
+
+			if (expr.arguments.length === 3) {
+				const r = yield* this.evaluate(expr.arguments[0], scope);
+				const g = yield* this.evaluate(expr.arguments[1], scope);
+				const b = yield* this.evaluate(expr.arguments[2], scope);
+				if (typeof r !== "number" || typeof g !== "number" || typeof b !== "number") {
+					throw new Error(`Цвета должны быть числами`);
+				}
+				yield { type: "turtle", command: "bgColor", args: [r, g, b] };
+			} else {
+				const color = yield* this.evaluate(expr.arguments[0], scope);
+				if (typeof color !== "string") {
+					throw new Error(`Цвет должен быть строкой`);
+				}
+				yield { type: "turtle", command: "bgColor", args: [color] };
+			}
 			return 0;
 		}
 
