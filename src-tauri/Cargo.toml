@@ -15,8 +15,6 @@ codegen-units = 1
 strip = true
 panic = "abort"
 
-
-
 [lib]
 name = "karp_studio_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
