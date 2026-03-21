@@ -1,6 +1,6 @@
+import { EXAMPLE_CODE_SNIPPETS } from "../core/examples.ts";
 import { EDITOR, LINE_NUMBERS, STATUS_BAR_CURSOR_POSITION } from "./elements.ts";
 import { EDITOR_HISTORY } from "./keybinds.ts";
-import exampleCode from "../../примеры/рыбалка.карп?raw";
 
 export function updateLineNumbers() {
 	const lineCount = EDITOR.value.split("\n").length;
@@ -47,7 +47,7 @@ EDITOR.addEventListener("scroll", () => {
 	});
 });
 
-EDITOR.value = exampleCode;
+EDITOR.value = EXAMPLE_CODE_SNIPPETS["рыбалка.карп"];
 
 setTimeout(updateLineNumbers, 0);
 

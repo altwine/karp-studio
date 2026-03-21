@@ -1,6 +1,7 @@
 export const TITLE = document.getElementById("title") as HTMLButtonElement;
 
 export const RUN_CODE_BUTTON = document.getElementById("runCodeButton") as HTMLButtonElement;
+export const EXAMPLES_BUTTON = document.getElementById("examplesButton") as HTMLButtonElement;
 export const REFERENCE_BUTTON = document.getElementById("referenceButton") as HTMLButtonElement;
 
 export const TEXT_OUTPUT_CONTAINER = document.getElementById("text-output") as HTMLDivElement;
