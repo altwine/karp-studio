@@ -16,9 +16,9 @@
 ```bash
 $ git clone https://github.com/altwine/karp-studio.git
 $ cd karp-studio
-$ npm install
+$ bun install
 $ cargo install tauri-cli
-$ npm run tauri build
+$ bun run tauri build
 ```
 
 ## Пример кода
