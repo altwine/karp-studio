@@ -291,6 +291,17 @@ footer {
 	z-index: 1000;
 }
 
+.dropdown {
+	position: fixed;
+	background: #2d2d2d;
+	border: 1px solid #3d3d3d;
+	border-radius: 6px;
+	padding: 4px 0;
+	min-width: 180px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+	z-index: 999;
+}
+
 body[data-context-target="editor"] .menu-item[data-target="editor"],
 body[data-context-target="title"] .menu-item[data-target="title"] {
 	display: flex;

@@ -22,4 +22,6 @@ export const MENU_ITEM_DELETE = document.querySelector('.menu-item[data-action="
 export const MENU_ITEM_ABOUT = document.querySelector('.menu-item[data-action="about"]') as HTMLDivElement;
 export const MENU_ITEM_FILE_ISSUE = document.querySelector('.menu-item[data-action="file-issue"]') as HTMLDivElement;
 
+export const DROPDOWN_CONTAINER = document.getElementById("dropdown-container") as HTMLDivElement;
+
 export const STATUS_BAR_CURSOR_POSITION = document.getElementById("cursor-position") as HTMLSpanElement;
