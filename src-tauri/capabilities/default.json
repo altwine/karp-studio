@@ -9,6 +9,8 @@
 		"core:window:allow-unmaximize",
 		"core:window:allow-maximize",
 		"core:window:allow-close",
+		"core:path:allow-join",
+		"core:path:allow-resolve-directory",
 		"core:event:allow-listen",
 		"clipboard-manager:allow-write-text",
 		"clipboard-manager:allow-read-text",
@@ -19,6 +21,30 @@
 			"allow": [
 				{
 					"url": "https://github.com/altwine/karp-studio/issues"
+				}
+			]
+		},
+		{
+			"identifier": "opener:allow-open-path",
+			"allow": [
+				{
+					"path": "$RESOURCE/**"
+				}
+			]
+		},
+		{
+			"identifier": "fs:allow-read-dir",
+			"allow": [
+				{
+					"path": "$RESOURCE/**"
+				}
+			]
+		},
+		{
+			"identifier": "fs:allow-read-file",
+			"allow": [
+				{
+					"path": "$RESOURCE/**"
 				}
 			]
 		}
