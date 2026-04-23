@@ -1,6 +1,6 @@
 import { mkdir, readdir, readFile, rm } from "fs/promises";
 import { jsPDF } from "jspdf";
-import { MdTextRender } from "jspdf-md-renderer";
+import { MdTextRender, RenderOption } from "jspdf-md-renderer";
 import path from "path";
 
 const generatePDF = async (name: string, content: string) => {
@@ -10,7 +10,7 @@ const generatePDF = async (name: string, content: string) => {
 		orientation: "portrait",
 	});
 
-	const options: any = {
+	const options: RenderOption = {
 		cursor: { x: 10, y: 10 },
 		page: {
 			format: "a4",
@@ -28,12 +28,26 @@ const generatePDF = async (name: string, content: string) => {
 			indent: 10,
 		},
 		font: {
-			bold: { name: "helvetica", style: "bold" },
-			regular: { name: "helvetica", style: "normal" },
-			light: { name: "helvetica", style: "light" },
+			bold: { name: "JetBrainsMono", style: "normal" },
+			regular: { name: "JetBrainsMono", style: "normal" },
+			light: { name: "JetBrainsMono", style: "normal" },
+			code: { name: "JetBrainsMono", style: "normal" },
 		},
 		endCursorYHandler: () => {}, // TypeError: validOptions.endCursorYHandler is not a function.
 	};
+
+	const jbMonoLightBase64 = (await readFile("./assets/JetBrainsMono-Light.ttf")).toString("base64");
+	const jbMonoRegularBase64 = (await readFile("./assets/JetBrainsMono-Regular.ttf")).toString("base64");
+	const jbMonoBoldBase64 = (await readFile("./assets/JetBrainsMono-Bold.ttf")).toString("base64");
+
+	doc.addFileToVFS("JetBrainsMono-Light.ttf", jbMonoLightBase64);
+	doc.addFileToVFS("JetBrainsMono-Regular.ttf", jbMonoRegularBase64);
+	doc.addFileToVFS("JetBrainsMono-Bold.ttf", jbMonoBoldBase64);
+	doc.addFont("JetBrainsMono-Light.ttf", "JetBrainsMono", "light");
+	doc.addFont("JetBrainsMono-Regular.ttf", "JetBrainsMono", "normal");
+	doc.addFont("JetBrainsMono-Bold.ttf", "JetBrainsMono", "bold");
+
+	doc.setFont("JetBrainsMono", "normal");
 
 	await MdTextRender(doc, content, options);
 	doc.save(`./.generated/${name}.pdf`);
