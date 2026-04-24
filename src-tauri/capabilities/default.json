@@ -10,6 +10,7 @@
 		"core:window:allow-maximize",
 		"core:window:allow-close",
 		"core:path:allow-join",
+		"core:path:allow-extname",
 		"core:path:allow-resolve-directory",
 		"core:event:allow-listen",
 		"clipboard-manager:allow-write-text",
@@ -28,7 +29,7 @@
 			"identifier": "opener:allow-open-path",
 			"allow": [
 				{
-					"path": "$RESOURCE/**"
+					"path": "$RESOURCE/справка/*.pdf"
 				}
 			]
 		},
@@ -36,7 +37,7 @@
 			"identifier": "fs:allow-read-dir",
 			"allow": [
 				{
-					"path": "$RESOURCE/**"
+					"path": "$RESOURCE/справка"
 				}
 			]
 		},
@@ -44,7 +45,7 @@
 			"identifier": "fs:allow-read-file",
 			"allow": [
 				{
-					"path": "$RESOURCE/**"
+					"path": "$RESOURCE/справка/*.pdf"
 				}
 			]
 		}

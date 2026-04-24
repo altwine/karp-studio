@@ -12,7 +12,7 @@ export function showDropdown(e: MouseEvent) {
 
 export function hideDropdown() {
 	DROPDOWN_CONTAINER.classList.add("hidden");
-	DROPDOWN_CONTAINER.innerHTML = "";
+	DROPDOWN_CONTAINER.replaceChildren();
 }
 
 DROPDOWN_CONTAINER.addEventListener("click", async (e) => {
