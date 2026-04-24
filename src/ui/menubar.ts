@@ -1,14 +1,31 @@
-import { BaseDirectory, readDir } from "@tauri-apps/plugin-fs";
-import { extname, join, resourceDir } from "@tauri-apps/api/path";
-import { interpret } from "../interpreter/core/interpreter.ts";
-import { showDropdown } from "./dropdown.ts";
 import { EDITOR, EXAMPLES_BUTTON, REFERENCE_BUTTON, RUN_CODE_BUTTON } from "./elements.ts";
-import { DROPDOWN_CONTAINER } from "../ui/elements";
 import { EXAMPLE_CODE_ICONS, EXAMPLE_CODE_SNIPPETS } from "../core/examples.ts";
+import { extname, join, resourceDir } from "@tauri-apps/api/path";
+import { BaseDirectory, readDir } from "@tauri-apps/plugin-fs";
+import { interpret, interpreterState } from "../interpreter/core/interpreter.ts";
+import { DROPDOWN_CONTAINER } from "../ui/elements";
+import { setProgressCursor } from "../ui/cursor.ts";
 import { ICON_REFERENCE } from "./icons.ts";
+import { showDropdown } from "./dropdown.ts";
 import { Dialog } from "./dialog.ts";
 
-RUN_CODE_BUTTON.addEventListener("click", () => interpret(EDITOR.value));
+const _runCodeButtonContentEl = RUN_CODE_BUTTON.querySelector("span") as HTMLSpanElement;
+
+RUN_CODE_BUTTON.addEventListener("click", async () => {
+	if (RUN_CODE_BUTTON.classList.contains("invertedVariant")) {
+		interpreterState.active = false;
+		return;
+	}
+	interpreterState.active = true;
+	RUN_CODE_BUTTON.classList.add("invertedVariant");
+	_runCodeButtonContentEl.textContent = "остановить";
+	setProgressCursor(true);
+	await interpret(EDITOR.value);
+	setProgressCursor(false);
+	RUN_CODE_BUTTON.classList.remove("invertedVariant");
+	_runCodeButtonContentEl.textContent = "запуск";
+	interpreterState.active = false;
+});
 
 EXAMPLES_BUTTON.addEventListener("click", (e) => {
 	for (const name of Object.keys(EXAMPLE_CODE_ICONS)) {

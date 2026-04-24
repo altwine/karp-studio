@@ -19,6 +19,7 @@
 	--menu-hover-bg: #094771;
 	--color-aliceblue: aliceblue;
 	--color-darkslateblue: darkslateblue;
+	--color-crimson: crimson;
 }
 
 ::-webkit-scrollbar,
@@ -121,9 +122,12 @@ header {
 	width: 260px;
 }
 
-#runCodeButton:disabled,
-#runCodeButton:disabled * {
-	cursor: not-allowed !important;
+#runCodeButton.invertedVariant {
+	background-color: var(--color-crimson);
+}
+
+#runCodeButton.invertedVariant * {
+	cursor: pointer;
 }
 
 .menuItem {
@@ -300,7 +304,7 @@ footer {
 
 .global-progress-cursor,
 .global-progress-cursor * {
-	cursor: progress !important;
+	cursor: progress;
 }
 
 .context-menu {

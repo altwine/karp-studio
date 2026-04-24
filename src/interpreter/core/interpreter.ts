@@ -16,8 +16,7 @@ import {
 } from "../parser/ast.ts";
 import { createParser } from "../parser/parser.ts";
 import { Scope } from "./scope.ts";
-import { TEXT_OUTPUT_CONTAINER, RUN_CODE_BUTTON } from "../../ui/elements.ts";
-import { setProgressCursor } from "../../ui/cursor.ts";
+import { TEXT_OUTPUT_CONTAINER } from "../../ui/elements.ts";
 
 export type RuntimeValue = number | string;
 
@@ -587,12 +586,8 @@ export class Interpreter {
 	}
 }
 
+export let interpreterState = { active: false };
 export async function interpret(code: string) {
-	if (RUN_CODE_BUTTON.disabled) return;
-	RUN_CODE_BUTTON.disabled = true;
-
-	setProgressCursor(true);
-
 	try {
 		const perfStart = performance.now();
 		TEXT_OUTPUT_CONTAINER.innerHTML = "";
@@ -611,7 +606,4 @@ export async function interpret(code: string) {
 	} catch (e: any) {
 		TEXT_OUTPUT_CONTAINER.innerHTML = `<span style="color:red;">${e.message}</span>`;
 	}
-
-	setProgressCursor(false);
-	RUN_CODE_BUTTON.disabled = false;
 }

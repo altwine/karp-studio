@@ -1,5 +1,5 @@
 import { TEXT_OUTPUT_CONTAINER } from "../../ui/elements";
-import { OutputCommand } from "../core/interpreter";
+import { interpreterState, OutputCommand } from "../core/interpreter";
 import { Turtle } from "../modules/turtle";
 
 export async function processGenerator(generator: Generator<OutputCommand, void, unknown>) {
@@ -89,7 +89,7 @@ export async function processGenerator(generator: Generator<OutputCommand, void,
 				while (!generatorDone) {
 					const next = generator.next();
 
-					if (next.done) {
+					if (next.done || !interpreterState.active) {
 						generatorDone = true;
 						break;
 					}
