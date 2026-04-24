@@ -1,4 +1,4 @@
-import { readFile, BaseDirectory, readDir } from "@tauri-apps/plugin-fs";
+import { BaseDirectory, readDir } from "@tauri-apps/plugin-fs";
 import { extname, join, resourceDir } from "@tauri-apps/api/path";
 import { interpret } from "../interpreter/core/interpreter.ts";
 import { showDropdown } from "./dropdown.ts";
