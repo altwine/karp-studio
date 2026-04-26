@@ -5,12 +5,13 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Karp Studio</title>
 		<link rel="stylesheet" href="./src/styles.css" />
+		<script type="module" src="./src/index.ts"></script>
 	</head>
 	<body>
 		<header>
 			<span id="title">ИСР КАРП</span>
 			<div id="menuBar">
-				<button class="menuItem" id="runCodeButton" title="Запустить программу (F5)">
+				<button class="menuItem" id="runCodeButton" title="Запустить/остановить программу (F5)">
 					<i class="icon">play_circle</i>
 					<span>запуск</span>
 				</button>
@@ -30,7 +31,12 @@
 			</div>
 		</header>
 		<div id="mainContainer">
-			<aside id="left">Left</aside>
+			<aside id="left">
+				<div id="open-folder" class="open-folder">
+					<span>открыть папку</span>
+				</div>
+				<div id="folder-files"></div>
+			</aside>
 			<div class="resizer" id="resizerLeft"></div>
 			<main>
 				<div id="lineNumbers"></div>
@@ -74,6 +80,5 @@
 			</div>
 		</div>
 		<div id="dropdown-container" class="dropdown hidden"></div>
-		<script type="module" src="./src/index.ts"></script>
 	</body>
 </html>

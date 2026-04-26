@@ -5,4 +5,5 @@ import "../interpreter/core/interpreter.ts";
 import "../ui/resizers.ts";
 import "../interpreter/lexer/lexer.ts";
 import "../ui/contextmenu/contextmenu.ts";
+import "../ui/explorer.ts";
 import "../core/history.ts";

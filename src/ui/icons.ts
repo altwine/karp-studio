@@ -10,6 +10,10 @@ export const ICON_CUT = "content_cut";
 export const ICON_COPY = "content_copy";
 export const ICON_PASTE = "content_paste";
 
+export const ICON_FOLDER = "folder";
+export const ICON_FOLDER_OPEN = "folder_open";
+export const ICON_FILE = "description";
+
 export const ICON_EXAMPLE_1 = "anchor";
 export const ICON_EXAMPLE_2 = "shapes";
 export const ICON_EXAMPLE_3 = "cyclone";

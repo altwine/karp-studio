@@ -2,6 +2,13 @@ import { EXAMPLE_CODE_SNIPPETS } from "../core/examples.ts";
 import { EDITOR, LINE_NUMBERS, STATUS_BAR_CURSOR_POSITION } from "./elements.ts";
 import { EDITOR_HISTORY } from "./keybinds.ts";
 
+export function setEditorContent(content: string = "") {
+	EDITOR.value = content;
+	setTimeout(updateLineNumbers, 0);
+	setTimeout(updateStatusBar, 0);
+	EDITOR_HISTORY.saveState();
+}
+
 export function updateLineNumbers() {
 	const lineCount = EDITOR.value.split("\n").length;
 	const lineNumbersHtml = Array.from({ length: lineCount }, (_, i) => i + 1).join("\n");
@@ -50,5 +57,6 @@ EDITOR.addEventListener("scroll", () => {
 EDITOR.value = EXAMPLE_CODE_SNIPPETS["рыбалка.карп"];
 
 setTimeout(updateLineNumbers, 0);
+setTimeout(updateStatusBar, 0);
 
 EDITOR_HISTORY.saveState();

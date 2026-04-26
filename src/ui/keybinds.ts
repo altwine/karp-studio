@@ -1,6 +1,5 @@
 import { EditHistory } from "../core/history.ts";
-import { EDITOR } from "./elements";
-import { interpret } from "../interpreter/core/interpreter.ts";
+import { EDITOR, RUN_CODE_BUTTON } from "./elements";
 import { updateLineNumbers } from "./editor.ts";
 
 const MOD_KEY_CODES = new Set(["KeyS", "KeyP", "KeyW", "KeyN", "KeyT", "KeyF", "KeyU", "KeyA"]);
@@ -41,7 +40,7 @@ document.addEventListener("keydown", (e) => {
 	if (e.repeat) return;
 
 	if (code === "F5") {
-		interpret(EDITOR.value);
+		RUN_CODE_BUTTON.click();
 		e.preventDefault();
 		return;
 	}

@@ -8,6 +8,7 @@ import { setProgressCursor } from "../ui/cursor.ts";
 import { ICON_REFERENCE } from "./icons.ts";
 import { showDropdown } from "./dropdown.ts";
 import { Dialog } from "./dialog.ts";
+import { setEditorContent } from "./editor.ts";
 
 const _runCodeButtonContentEl = RUN_CODE_BUTTON.querySelector("span") as HTMLSpanElement;
 
@@ -41,7 +42,7 @@ EXAMPLES_BUTTON.addEventListener("click", (e) => {
 		menuItemSpan.textContent = name;
 		menuItemContainer.appendChild(menuItemSpan);
 
-		menuItemContainer.addEventListener("click", () => (EDITOR.value = EXAMPLE_CODE_SNIPPETS[name]));
+		menuItemContainer.addEventListener("click", () => setEditorContent(EXAMPLE_CODE_SNIPPETS[name]));
 		DROPDOWN_CONTAINER.appendChild(menuItemContainer);
 	}
 	showDropdown(e);

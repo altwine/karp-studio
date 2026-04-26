@@ -6,6 +6,7 @@ export const REFERENCE_BUTTON = document.getElementById("referenceButton") as HT
 
 export const TEXT_OUTPUT_CONTAINER = document.getElementById("text-output") as HTMLDivElement;
 export const GRAPHICS_OUTPUT_CONTAINER = document.getElementById("graphics-output") as HTMLCanvasElement;
+export const OPEN_FOLDER_BUTTON = document.getElementById("open-folder") as HTMLButtonElement;
 export const LEFT_PANEL_DIV = document.getElementById("left") as HTMLDivElement;
 export const RIGHT_PANEL_DIV = document.getElementById("right") as HTMLDivElement;
 export const LEFT_RESIZER = document.getElementById("resizerLeft") as HTMLDivElement;
@@ -21,6 +22,8 @@ export const MENU_ITEM_PASTE = document.querySelector('.menu-item[data-action="p
 export const MENU_ITEM_DELETE = document.querySelector('.menu-item[data-action="delete"]') as HTMLDivElement;
 export const MENU_ITEM_ABOUT = document.querySelector('.menu-item[data-action="about"]') as HTMLDivElement;
 export const MENU_ITEM_FILE_ISSUE = document.querySelector('.menu-item[data-action="file-issue"]') as HTMLDivElement;
+
+export const FILE_TREE_CONTAINER = document.getElementById("folder-files") as HTMLDivElement;
 
 export const DROPDOWN_CONTAINER = document.getElementById("dropdown-container") as HTMLDivElement;
 

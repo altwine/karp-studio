@@ -17,6 +17,9 @@
 		"clipboard-manager:allow-read-text",
 		"dialog:allow-confirm",
 		"dialog:allow-message",
+		"dialog:allow-open",
+		"fs:read-files",
+		"fs:read-dirs",
 		{
 			"identifier": "opener:allow-open-url",
 			"allow": [
@@ -37,7 +40,7 @@
 			"identifier": "fs:allow-read-dir",
 			"allow": [
 				{
-					"path": "$RESOURCE/справка"
+					"path": "**"
 				}
 			]
 		},
@@ -46,6 +49,14 @@
 			"allow": [
 				{
 					"path": "$RESOURCE/справка/*.pdf"
+				}
+			]
+		},
+		{
+			"identifier": "fs:allow-read-text-file",
+			"allow": [
+				{
+					"path": "**"
 				}
 			]
 		}
