@@ -1,62 +1,40 @@
 import { EXAMPLE_CODE_SNIPPETS } from "../core/examples.ts";
-import { EDITOR, LINE_NUMBERS, STATUS_BAR_CURSOR_POSITION } from "./elements.ts";
-import { EDITOR_HISTORY } from "./keybinds.ts";
+import { EDITOR, STATUS_BAR_CURSOR_POSITION } from "./elements.ts";
+
+import { EditorState } from "@codemirror/state";
+import { EditorView } from "@codemirror/view";
+import { basicSetup } from "codemirror";
+
+const state = EditorState.create({
+	doc: EXAMPLE_CODE_SNIPPETS["рыбалка.карп"],
+	extensions: [
+		basicSetup,
+		EditorView.updateListener.of((update) => {
+			if (update.selectionSet || update.docChanged) {
+				const { head } = update.view.state.selection.main;
+				const line = update.view.state.doc.lineAt(head);
+				const col = head - line.from + 1;
+				STATUS_BAR_CURSOR_POSITION.textContent = `${line.number}:${col}`;
+			}
+		}),
+	],
+});
+
+export const EDITOR_VIEW = new EditorView({
+	state: state,
+	parent: EDITOR,
+});
 
 export function setEditorContent(content: string = "") {
-	EDITOR.value = content;
-	setTimeout(updateLineNumbers, 0);
-	setTimeout(updateStatusBar, 0);
-	EDITOR_HISTORY.saveState();
-}
-
-export function updateLineNumbers() {
-	const lineCount = EDITOR.value.split("\n").length;
-	const lineNumbersHtml = Array.from({ length: lineCount }, (_, i) => i + 1).join("\n");
-	LINE_NUMBERS.textContent = lineNumbersHtml;
-	LINE_NUMBERS.scrollTop = EDITOR.scrollTop;
-}
-
-export function updateStatusBar() {
-	let lines = EDITOR.value.split("\n");
-	const text = EDITOR.value;
-	const cursorPos = EDITOR.selectionStart;
-	lines = text.split("\n");
-	let line = 1;
-	let col = 0;
-	for (let i = 0; i < lines.length; i++) {
-		const lineLength = lines[i].length;
-		if (cursorPos <= col + lineLength) {
-			col = cursorPos - col + 1;
-			break;
-		}
-		col += lineLength + 1;
-		line++;
-	}
-
-	STATUS_BAR_CURSOR_POSITION.textContent = `${line}:${col}`;
-}
-
-EDITOR.addEventListener("input", () => {
-	EDITOR_HISTORY.saveState();
-	updateLineNumbers();
-	updateStatusBar();
-});
-
-EDITOR.addEventListener("click", updateStatusBar);
-EDITOR.addEventListener("keyup", updateStatusBar);
-EDITOR.addEventListener("select", updateStatusBar);
-
-let scrollTimeout: number;
-EDITOR.addEventListener("scroll", () => {
-	cancelAnimationFrame(scrollTimeout);
-	scrollTimeout = requestAnimationFrame(() => {
-		LINE_NUMBERS.scrollTop = EDITOR.scrollTop;
+	EDITOR_VIEW.dispatch({
+		changes: {
+			from: 0,
+			to: EDITOR_VIEW.state.doc.length,
+			insert: content,
+		},
 	});
-});
+}
 
-EDITOR.value = EXAMPLE_CODE_SNIPPETS["рыбалка.карп"];
-
-setTimeout(updateLineNumbers, 0);
-setTimeout(updateStatusBar, 0);
-
-EDITOR_HISTORY.saveState();
+export function getEditorContent(): string {
+	return EDITOR_VIEW.state.doc.toString();
+}

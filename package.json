@@ -11,11 +11,14 @@
 		"gen_docs": "bun ./scripts/gen_docs.ts"
 	},
 	"dependencies": {
+		"@codemirror/state": "^6.6.0",
+		"@codemirror/view": "^6.42.1",
 		"@tauri-apps/api": "^2",
 		"@tauri-apps/plugin-clipboard-manager": "^2.3.2",
 		"@tauri-apps/plugin-dialog": "^2.6.0",
 		"@tauri-apps/plugin-fs": "^2.5.0",
-		"@tauri-apps/plugin-opener": "^2"
+		"@tauri-apps/plugin-opener": "^2",
+		"codemirror": "^6.0.2"
 	},
 	"devDependencies": {
 		"@tauri-apps/cli": "^2",

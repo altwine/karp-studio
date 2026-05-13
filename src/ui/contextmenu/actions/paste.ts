@@ -1,19 +1,12 @@
 import { readText } from "@tauri-apps/plugin-clipboard-manager";
+import { EDITOR_VIEW } from "../../editor";
 
-export async function paste(target: HTMLElement) {
-	try {
-		const text = await readText();
+export async function paste() {
+	const text = await readText();
+	const { from, to } = EDITOR_VIEW.state.selection.main;
 
-		if (target instanceof HTMLTextAreaElement || target instanceof HTMLInputElement) {
-			const start = target.selectionStart!;
-			const end = target.selectionEnd!;
-
-			target.value = target.value.substring(0, start) + text + target.value.substring(end);
-			target.selectionStart = start + text.length;
-			target.selectionEnd = start + text.length;
-			target.dispatchEvent(new Event("input", { bubbles: true }));
-		}
-	} catch (err) {
-		console.error("Paste failed:", err);
-	}
+	EDITOR_VIEW.dispatch({
+		changes: { from, to, insert: text },
+		selection: { anchor: from + text.length },
+	});
 }

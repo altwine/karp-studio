@@ -12,8 +12,7 @@ export const RIGHT_PANEL_DIV = document.getElementById("right") as HTMLDivElemen
 export const LEFT_RESIZER = document.getElementById("resizerLeft") as HTMLDivElement;
 export const RIGHT_RESIZER = document.getElementById("resizerRight") as HTMLDivElement;
 
-export const EDITOR = document.getElementById("editor") as HTMLTextAreaElement;
-export const LINE_NUMBERS = document.getElementById("lineNumbers") as HTMLDivElement;
+export const EDITOR = document.getElementById("editor") as HTMLDivElement;
 
 export const CONTEXT_MENU = document.getElementById("contextMenu") as HTMLDivElement;
 export const MENU_ITEM_CUT = document.querySelector('.menu-item[data-action="cut"]') as HTMLDivElement;

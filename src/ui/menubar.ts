@@ -1,4 +1,4 @@
-import { EDITOR, EXAMPLES_BUTTON, REFERENCE_BUTTON, RUN_CODE_BUTTON } from "./elements.ts";
+import { EXAMPLES_BUTTON, REFERENCE_BUTTON, RUN_CODE_BUTTON } from "./elements.ts";
 import { EXAMPLE_CODE_ICONS, EXAMPLE_CODE_SNIPPETS } from "../core/examples.ts";
 import { extname, join, resourceDir } from "@tauri-apps/api/path";
 import { BaseDirectory, readDir } from "@tauri-apps/plugin-fs";
@@ -8,7 +8,7 @@ import { setProgressCursor } from "../ui/cursor.ts";
 import { ICON_REFERENCE } from "./icons.ts";
 import { showDropdown } from "./dropdown.ts";
 import { Dialog } from "./dialog.ts";
-import { setEditorContent } from "./editor.ts";
+import { getEditorContent, setEditorContent } from "./editor.ts";
 
 const _runCodeButtonContentEl = RUN_CODE_BUTTON.querySelector("span") as HTMLSpanElement;
 
@@ -21,7 +21,7 @@ RUN_CODE_BUTTON.addEventListener("click", async () => {
 	RUN_CODE_BUTTON.classList.add("invertedVariant");
 	_runCodeButtonContentEl.textContent = "остановить";
 	setProgressCursor(true);
-	await interpret(EDITOR.value);
+	await interpret(getEditorContent());
 	setProgressCursor(false);
 	RUN_CODE_BUTTON.classList.remove("invertedVariant");
 	_runCodeButtonContentEl.textContent = "запуск";
