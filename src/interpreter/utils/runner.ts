@@ -4,6 +4,8 @@ import { Turtle } from "../modules/turtle";
 
 export async function processGenerator(generator: Generator<OutputCommand, void, unknown>) {
 	return new Promise<void>((resolve, reject) => {
+		Turtle.reset();
+
 		let generatorDone = false;
 		let commandQueue: OutputCommand[] = [];
 		let currentTimeout: ReturnType<typeof setTimeout> | null = null;

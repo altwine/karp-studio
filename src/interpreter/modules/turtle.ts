@@ -135,6 +135,17 @@ export const Turtle = {
 		// TODO(altwine): implement proper turtle drawing, maybe using free icons
 	},
 	clearTurtle: () => {},
+
+	reset() {
+		this.clear();
+		this.home();
+		this.setPenDown();
+		this.setPenColorHex("#000000");
+		this.setPenWidth(1);
+		this.show();
+		this.disableGrid();
+		this.setBgColorHex("#FFFFFF");
+	},
 };
 
 function getGridStep(): number {
