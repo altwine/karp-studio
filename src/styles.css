@@ -1,22 +1,17 @@
 :root {
-	--bg-dark: #2d2d2d;
-	--bg-primary: #1e1e1e;
-	--text-primary: #ccc;
-	--text-secondary: #bbb;
-	--color-white: #fff;
-	--border-color: #3a3a3a;
+	--header-footer-color: #313337;
+	--color-bg-main: #0d1016;
+	--color-text-primary: #ddd;
+	--color-text-secondary: #bbb;
+	--color-text-hover: #eee;
+	--border-color: #3f4043;
 	--border-light: #404040;
 	--menu-border: #3d3d3d;
 	--scrollbar-thumb: #4a4a4a;
-	--aside-bg: #252526;
-	--line-number-color: #858585;
-	--editor-text: #d4d4d4;
-	--placeholder: #666;
-	--resizer-bg: #333;
-	--resizer-hover: #007acc;
+	--color-surface-aside: #1f2127;
 	--window-btn-hover: #3e3e42;
 	--close-hover-bg: #e81123;
-	--menu-hover-bg: #094771;
+	--menu-hover-bg: #2d2f34;
 	--color-aliceblue: aliceblue;
 	--color-darkslateblue: darkslateblue;
 	--color-crimson: crimson;
@@ -29,13 +24,17 @@
 	cursor: default;
 }
 
+::-webkit-scrollbar-button {
+	display: none;
+}
+
 ::-webkit-scrollbar {
 	width: 10px;
 }
 
 ::-webkit-scrollbar-corner,
 ::-webkit-scrollbar-track {
-	background: var(--bg-dark);
+	background: var(--color-bg-main);
 }
 
 ::-webkit-scrollbar-thumb {
@@ -51,7 +50,6 @@
 
 html,
 body {
-	background: var(--bg-primary);
 	height: 100vh;
 	overflow: hidden;
 }
@@ -59,11 +57,11 @@ body {
 body {
 	display: flex;
 	flex-direction: column;
-	color: var(--text-primary);
+	color: var(--color-text-primary);
 }
 
 header {
-	background: var(--bg-dark);
+	background: var(--header-footer-color);
 	border-bottom: 1px solid var(--border-color);
 	height: 36px;
 	display: flex;
@@ -139,7 +137,7 @@ header {
 	align-items: center;
 	gap: 4px;
 	border: none;
-	color: var(--text-secondary);
+	color: var(--color-text-secondary);
 	font-size: 16px;
 	cursor: pointer;
 	-webkit-app-region: no-drag;
@@ -174,7 +172,7 @@ li.folder > div:hover,
 li.file > div:hover,
 .open-folder:hover,
 .menuItem:hover {
-	color: var(--color-white);
+	color: var(--color-text-hover);
 }
 
 .menuItem > span {
@@ -191,7 +189,7 @@ li.file > div:hover,
 	background: transparent;
 	border: none;
 	font-size: 16px;
-	color: var(--text-primary);
+	color: var(--color-text-primary);
 	width: 36px;
 	height: 36px;
 	display: flex;
@@ -210,7 +208,7 @@ li.file > div:hover,
 
 #closeWindow:hover {
 	background-color: var(--close-hover-bg);
-	color: var(--color-white);
+	color: var(--color-text-hover);
 }
 
 #mainContainer {
@@ -222,8 +220,8 @@ li.file > div:hover,
 aside#left,
 aside#right {
 	width: 240px;
-	background: var(--aside-bg);
-	color: var(--text-primary);
+	background: var(--color-surface-aside);
+	color: var(--color-text-primary);
 	padding: 10px;
 	overflow-y: auto;
 	flex-shrink: 0;
@@ -262,7 +260,6 @@ aside#right {
 
 main {
 	flex: 1;
-	background: var(--bg-primary);
 	position: relative;
 	overflow: hidden;
 }
@@ -272,7 +269,8 @@ main {
 }
 
 footer {
-	color: var(--text-primary);
+	background-color: var(--header-footer-color);
+	color: var(--color-text-primary);
 	padding: 5px 10px;
 	border-top: 1px solid var(--border-color);
 	flex-shrink: 0;
@@ -281,20 +279,20 @@ footer {
 }
 
 .resizer {
-	width: 4px;
-	background: var(--resizer-bg);
-	cursor: col-resize;
+	width: 9px;
+	background: var(--border-color);
+	cursor: w-resize;
 	transition: background 0.15s ease;
 }
 
-.resizer:hover,
-.resizer.resizing {
-	background: var(--resizer-hover);
+.resizer:first-of-type {
+	border-left: 4px solid var(--color-surface-aside);
+	border-right: 4px solid var(--color-bg-main);
 }
 
-.resizer:hover::after,
-.resizer.resizing::after {
-	opacity: 1;
+.resizer:last-of-type {
+	border-left: 4px solid var(--color-bg-main);
+	border-right: 4px solid var(--color-surface-aside);
 }
 
 .global-progress-cursor,
@@ -304,7 +302,7 @@ footer {
 
 .context-menu {
 	position: fixed;
-	background: var(--bg-dark);
+	background: var(--color-surface-aside);
 	border: 1px solid var(--menu-border);
 	border-radius: 6px;
 	padding: 4px 0;
@@ -315,7 +313,7 @@ footer {
 
 .dropdown {
 	position: fixed;
-	background: var(--bg-dark);
+	background: var(--color-surface-aside);
 	border: 1px solid var(--menu-border);
 	border-radius: 6px;
 	padding: 4px 0;
@@ -341,12 +339,13 @@ body[data-context-target="title"] .menu-item[data-target="editor"] {
 .menu-item {
 	display: flex;
 	padding: 6px;
-	color: var(--text-secondary);
+	color: var(--color-text-secondary);
 	user-select: none;
-	margin: 4px;
+	margin: 2px 6px;
 	align-items: center;
 	gap: 8px;
 	border: none;
+	border-radius: 6px;
 	font-size: 16px;
 	cursor: pointer;
 }
@@ -361,7 +360,7 @@ body[data-context-target="title"] .menu-item[data-target="editor"] {
 
 .menu-item:hover {
 	background: var(--menu-hover-bg);
-	color: var(--color-white);
+	color: var(--color-text-hover);
 }
 
 .menu-separator {
