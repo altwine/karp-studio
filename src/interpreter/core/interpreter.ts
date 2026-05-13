@@ -21,7 +21,7 @@ import { TEXT_OUTPUT_CONTAINER } from "../../ui/elements.ts";
 export type RuntimeValue = number | string;
 
 export type OutputCommand = {
-	type: "print" | "turtle";
+	type: "print" | "turtle" | "wait";
 	command?:
 		| "showTurtle"
 		| "hideTurtle"
@@ -285,6 +285,18 @@ export class Interpreter {
 				args.push(yield* this.evaluate(arg, scope));
 			}
 			yield { type: "print", args };
+			return 0;
+		}
+
+		if (funcName === "ждать") {
+			if (expr.arguments.length !== 1) {
+				throw new Error('Функция "ждать" ожидает 1 аргумент');
+			}
+			const arg1 = yield* this.evaluate(expr.arguments[0], scope);
+			if (typeof arg1 !== "number") {
+				throw new Error('Функция "ждать" ожидает число 1 аргументом');
+			}
+			yield { type: "wait", args: [arg1] };
 			return 0;
 		}
 
