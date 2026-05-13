@@ -1,10 +1,9 @@
 name: "publish"
 
 on:
-    workflow_dispatch:
     push:
-        branches:
-            - main
+        tags:
+            - "v*"
 
 jobs:
     publish-tauri:
@@ -22,6 +21,8 @@ jobs:
         runs-on: ${{ matrix.platform }}
         steps:
             - uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
 
             - name: install dependencies (ubuntu only)
               if: matrix.platform == 'ubuntu-22.04'
@@ -54,9 +55,15 @@ jobs:
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               with:
-                  tagName: app-v__VERSION__
-                  releaseName: "App v__VERSION__"
-                  releaseBody: "See the assets to download this version and install."
-                  releaseDraft: true
+                  tagName: ${{ github.ref_name }}
+                  releaseName: "ИСР КАРП ${{ github.ref_name }}"
+                  releaseBody: |
+                      # ИСР КАРП (${{ github.ref_name }})
+                      Интегрированная среда разработки для обучения программированию на языке КАРП.
+
+                      ## Установка
+                      1. Скачай подходящий установщик для своей ОС в разделе ниже.
+                      2. Для Windows запусти `.msi`, для Linux: `.deb` / `.AppImage`.
+                  releaseDraft: false
                   prerelease: false
                   args: ${{ matrix.args }}
