@@ -56,14 +56,13 @@ jobs:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               with:
                   tagName: ${{ github.ref_name }}
-                  releaseName: "ИСР КАРП ${{ github.ref_name }}"
+                  releaseName: "ИСР КАРП (${{ github.ref_name }})"
                   releaseBody: |
-                      # ИСР КАРП (${{ github.ref_name }})
                       Интегрированная среда разработки для обучения программированию на языке КАРП.
 
-                      ## Установка
+                      **Установка**:
                       1. Скачай подходящий установщик для своей ОС в разделе ниже.
-                      2. Для Windows запусти `.msi`, для Linux: `.deb` / `.AppImage`.
+                      2. Для Windows запусти `.exe`, для Linux: `.rpm` / `.deb` / `.AppImage`.
                   releaseDraft: false
                   prerelease: false
                   args: ${{ matrix.args }}
