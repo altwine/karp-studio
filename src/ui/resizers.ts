@@ -18,8 +18,6 @@ function onMouseDown(e: MouseEvent) {
 	startLeftWidth = LEFT_PANEL_DIV.offsetWidth;
 	startRightWidth = RIGHT_PANEL_DIV.offsetWidth;
 
-	currentResizer.classList.add("resizing");
-
 	document.addEventListener("mousemove", onMouseMove);
 	document.addEventListener("mouseup", onMouseUp);
 
@@ -46,7 +44,6 @@ function onMouseMove(e: MouseEvent) {
 
 function onMouseUp() {
 	if (currentResizer) {
-		currentResizer.classList.remove("resizing");
 		currentResizer = null;
 	}
 
@@ -56,3 +53,6 @@ function onMouseUp() {
 
 LEFT_RESIZER.addEventListener("mousedown", onMouseDown);
 RIGHT_RESIZER.addEventListener("mousedown", onMouseDown);
+
+LEFT_RESIZER.addEventListener("dblclick", () => (LEFT_PANEL_DIV.style.width = "240px"));
+RIGHT_RESIZER.addEventListener("dblclick", () => (RIGHT_PANEL_DIV.style.width = "240px"));
