@@ -356,3 +356,8 @@ body[data-context-target="title"] .menu-item[data-target="editor"] {
 	max-height: 180px;
 	border-top: 1px solid var(--border-color);
 }
+
+.terminal {
+	padding-left: 4px;
+	padding-top: 4px;
+}
