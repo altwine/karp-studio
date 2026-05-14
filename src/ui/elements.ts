@@ -4,21 +4,22 @@ export const RUN_CODE_BUTTON = document.getElementById("runCodeButton") as HTMLB
 export const EXAMPLES_BUTTON = document.getElementById("examplesButton") as HTMLButtonElement;
 export const REFERENCE_BUTTON = document.getElementById("referenceButton") as HTMLButtonElement;
 
-export const TEXT_OUTPUT_CONTAINER = document.getElementById("text-output") as HTMLDivElement;
 export const GRAPHICS_OUTPUT_CONTAINER = document.getElementById("graphics-output") as HTMLCanvasElement;
 export const OPEN_FOLDER_BUTTON = document.getElementById("open-folder") as HTMLButtonElement;
 export const LEFT_PANEL_DIV = document.getElementById("left") as HTMLDivElement;
-export const RIGHT_PANEL_DIV = document.getElementById("right") as HTMLDivElement;
 export const LEFT_RESIZER = document.getElementById("resizerLeft") as HTMLDivElement;
-export const RIGHT_RESIZER = document.getElementById("resizerRight") as HTMLDivElement;
+export const TERMINAL_CONTAINER = document.getElementById("terminal-container") as HTMLDivElement;
 
 export const EDITOR = document.getElementById("editor") as HTMLDivElement;
 
 export const CONTEXT_MENU = document.getElementById("contextMenu") as HTMLDivElement;
 export const MENU_ITEM_CUT = document.querySelector('.menu-item[data-action="cut"]') as HTMLDivElement;
-export const MENU_ITE_COPY = document.querySelector('.menu-item[data-action="copy"]') as HTMLDivElement;
+export const MENU_ITEM_COPY = document.querySelector('.menu-item[data-action="copy"]') as HTMLDivElement;
 export const MENU_ITEM_PASTE = document.querySelector('.menu-item[data-action="paste"]') as HTMLDivElement;
 export const MENU_ITEM_DELETE = document.querySelector('.menu-item[data-action="delete"]') as HTMLDivElement;
+export const MENU_ITEM_CLEAR_CONTENT = document.querySelector(
+	'.menu-item[data-action="clear-content"]',
+) as HTMLDivElement;
 export const MENU_ITEM_ABOUT = document.querySelector('.menu-item[data-action="about"]') as HTMLDivElement;
 export const MENU_ITEM_FILE_ISSUE = document.querySelector('.menu-item[data-action="file-issue"]') as HTMLDivElement;
 

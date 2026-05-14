@@ -1,6 +1,7 @@
 import { MAIN_WINDOW } from "../../core/controls";
 import { Dialog } from "../dialog";
-import { EDITOR, CONTEXT_MENU, TITLE } from "../elements";
+import { EDITOR, CONTEXT_MENU, TITLE, TERMINAL_CONTAINER } from "../elements";
+import { TERMINAL } from "../terminal";
 import { copy } from "./actions/copy";
 import { cut } from "./actions/cut";
 import { _delete } from "./actions/delete";
@@ -10,18 +11,16 @@ let contextTarget: HTMLElement | null = null;
 let contextTargetType: string | null = null;
 
 const menuActions: Record<string, (target: HTMLElement, type: string) => Promise<void> | void> = {
-	// commons
 	cut,
 	copy,
 	paste,
 	delete: _delete,
-
-	// specifics
+	"clear-content": () => TERMINAL.clear(),
 	"file-issue": () => Dialog.openUrl("https://github.com/altwine/karp-studio/issues"),
 	about: () => Dialog.openInfoMessage(`Версия: ${__VERSION__}`),
 };
 
-function showContextMenu(e: MouseEvent, targetType: "editor" | "title") {
+function showContextMenu(e: MouseEvent, targetType: "editor" | "title" | "terminal") {
 	e.preventDefault();
 	e.stopPropagation();
 
@@ -73,3 +72,4 @@ MAIN_WINDOW.listen("tauri://blur", hideContextMenu);
 
 EDITOR.addEventListener("contextmenu", (e) => showContextMenu(e, "editor"));
 TITLE.addEventListener("contextmenu", (e) => showContextMenu(e, "title"));
+TERMINAL_CONTAINER.addEventListener("contextmenu", (e) => showContextMenu(e, "terminal"));

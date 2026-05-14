@@ -16,7 +16,7 @@ import {
 } from "../parser/ast.ts";
 import { createParser } from "../parser/parser.ts";
 import { Scope } from "./scope.ts";
-import { TEXT_OUTPUT_CONTAINER } from "../../ui/elements.ts";
+import { TERMINAL } from "../../ui/terminal.ts";
 
 export type RuntimeValue = number | string;
 
@@ -602,7 +602,7 @@ export let interpreterState = { active: false };
 export async function interpret(code: string) {
 	try {
 		const perfStart = performance.now();
-		TEXT_OUTPUT_CONTAINER.innerHTML = "";
+		TERMINAL.clear();
 
 		const tokens = createLexer(code);
 		const ast = createParser(tokens);
@@ -613,9 +613,9 @@ export async function interpret(code: string) {
 
 		const perfEnd = performance.now();
 		const perfDelta = Math.ceil(perfEnd - perfStart);
-		TEXT_OUTPUT_CONTAINER.insertAdjacentText("beforeend", `Программа ${ast.name} исполнена (${perfDelta} мс.)`);
-		TEXT_OUTPUT_CONTAINER.scrollTop = TEXT_OUTPUT_CONTAINER.scrollHeight;
+
+		TERMINAL.writeln(`Программа ${ast.name} исполнена (${perfDelta} мс.)`);
 	} catch (e: any) {
-		TEXT_OUTPUT_CONTAINER.innerHTML = `<span style="color:red;">${e.message}</span>`;
+		TERMINAL.writeln(`\x1b[91m${e.message}\x1b[0m`);
 	}
 }

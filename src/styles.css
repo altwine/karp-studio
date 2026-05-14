@@ -217,8 +217,7 @@ li.file > div:hover,
 	min-height: 0;
 }
 
-aside#left,
-aside#right {
+aside#left {
 	width: 240px;
 	background: var(--color-surface-aside);
 	color: var(--color-text-primary);
@@ -227,28 +226,7 @@ aside#right {
 	flex-shrink: 0;
 }
 
-aside#right {
-	padding: 8px;
-	overflow: auto;
-	font-family: "Consolas", monospace;
-	font-size: 14px;
-	white-space: pre-wrap;
-	word-wrap: break-word;
-	height: 100%;
-	box-sizing: border-box;
-	display: flex;
-	gap: 6px;
-	flex-direction: column;
-}
-
-.output-area {
-	flex: 1;
-	width: 100%;
-	height: 100%;
-	overflow: auto;
-}
-
-#graphics-output {
+/*#graphics-output {
 	background-color: var(--color-aliceblue);
 	width: 450px;
 	height: 450px;
@@ -256,12 +234,10 @@ aside#right {
 	min-height: 450px;
 	max-width: 450px;
 	max-height: 450px;
-}
+}*/
 
 main {
 	flex: 1;
-	position: relative;
-	overflow: hidden;
 }
 
 .cm-editor {
@@ -279,7 +255,7 @@ footer {
 }
 
 .resizer {
-	width: 9px;
+	min-width: 5px;
 	background: var(--border-color);
 	cursor: w-resize;
 	transition: background 0.15s ease;
@@ -287,12 +263,6 @@ footer {
 
 .resizer:first-of-type {
 	border-left: 4px solid var(--color-surface-aside);
-	border-right: 4px solid var(--color-bg-main);
-}
-
-.resizer:last-of-type {
-	border-left: 4px solid var(--color-bg-main);
-	border-right: 4px solid var(--color-surface-aside);
 }
 
 .global-progress-cursor,
@@ -322,12 +292,17 @@ footer {
 	z-index: 999;
 }
 
+body[data-context-target="terminal"] .menu-item[data-target="terminal"],
 body[data-context-target="editor"] .menu-item[data-target="editor"],
 body[data-context-target="title"] .menu-item[data-target="title"] {
 	display: flex;
 }
 
+body[data-context-target="terminal"] .menu-item[data-target="title"],
+body[data-context-target="terminal"] .menu-item[data-target="editor"],
 body[data-context-target="editor"] .menu-item[data-target="title"],
+body[data-context-target="editor"] .menu-item[data-target="terminal"],
+body[data-context-target="title"] .menu-item[data-target="terminal"],
 body[data-context-target="title"] .menu-item[data-target="editor"] {
 	display: none;
 }
@@ -367,4 +342,17 @@ body[data-context-target="title"] .menu-item[data-target="editor"] {
 	height: 1px;
 	background: var(--menu-border);
 	margin: 4px 0;
+}
+
+#editor {
+	height: calc(100vh - 36px - 36px - 172px);
+	max-height: calc(100vh - 36px - 36px - 172px);
+}
+
+#terminal-container {
+	flex: 1;
+	width: 100%;
+	height: 180px;
+	max-height: 180px;
+	border-top: 1px solid var(--border-color);
 }

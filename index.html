@@ -38,13 +38,17 @@
 				<div id="folder-files"></div>
 			</aside>
 			<div class="resizer" id="resizerLeft"></div>
-			<main id="editor"></main>
-			<div class="resizer" id="resizerRight"></div>
-			<aside id="right">
-				<div id="text-output" class="output-area"></div>
-				<hr />
-				<canvas id="graphics-output" class="output-area" width="300px" height="300px"></canvas>
-			</aside>
+			<main>
+				<div id="editor"></div>
+				<div id="terminal-container"></div>
+			</main>
+			<canvas
+				style="display: none !important"
+				id="graphics-output"
+				class="output-area"
+				width="300px"
+				height="300px"
+			></canvas>
 		</div>
 		<footer>
 			<span>позиция курсора:</span>
@@ -66,6 +70,10 @@
 			<div class="menu-item" data-action="delete" data-target="editor">
 				<i class="icon">delete</i>
 				<span>удалить</span>
+			</div>
+			<div class="menu-item" data-action="clear-content" data-target="terminal">
+				<i class="icon">delete</i>
+				<span>очистить</span>
 			</div>
 			<div class="menu-item" data-action="about" data-target="title">
 				<i class="icon">help</i>

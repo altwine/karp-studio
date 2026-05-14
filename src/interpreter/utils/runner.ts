@@ -1,4 +1,4 @@
-import { TEXT_OUTPUT_CONTAINER } from "../../ui/elements";
+import { TERMINAL } from "../../ui/terminal";
 import { interpreterState, OutputCommand } from "../core/interpreter";
 import { Turtle } from "../modules/turtle";
 
@@ -46,8 +46,7 @@ export async function processGenerator(generator: Generator<OutputCommand, void,
 				const cmd = commandQueue.shift()!;
 
 				if (cmd.type === "print") {
-					TEXT_OUTPUT_CONTAINER.innerHTML += cmd.args.join(" ") + "\n";
-					TEXT_OUTPUT_CONTAINER.scrollTop = TEXT_OUTPUT_CONTAINER.scrollHeight;
+					TERMINAL.writeln(cmd.args.join(" "));
 				}
 
 				if (cmd.type === "turtle") {

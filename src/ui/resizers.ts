@@ -1,4 +1,4 @@
-import { LEFT_PANEL_DIV, LEFT_RESIZER, RIGHT_PANEL_DIV, RIGHT_RESIZER } from "./elements";
+import { LEFT_PANEL_DIV, LEFT_RESIZER } from "./elements";
 
 const MIN_WIDTH = 150;
 const MAX_WIDTH = 480;
@@ -6,17 +6,15 @@ const MAX_WIDTH = 480;
 let currentResizer: HTMLElement | null = null;
 let startX = 0;
 let startLeftWidth = 0;
-let startRightWidth = 0;
 
 function onMouseDown(e: MouseEvent) {
 	const target = e.target as HTMLElement;
-	if (target !== LEFT_RESIZER && target !== RIGHT_RESIZER) return;
+	if (target !== LEFT_RESIZER) return;
 
 	currentResizer = target;
 	startX = e.clientX;
 
 	startLeftWidth = LEFT_PANEL_DIV.offsetWidth;
-	startRightWidth = RIGHT_PANEL_DIV.offsetWidth;
 
 	document.addEventListener("mousemove", onMouseMove);
 	document.addEventListener("mouseup", onMouseUp);
@@ -34,11 +32,6 @@ function onMouseMove(e: MouseEvent) {
 		if (newLeftWidth >= MIN_WIDTH && newLeftWidth <= MAX_WIDTH) {
 			LEFT_PANEL_DIV.style.width = `${newLeftWidth}px`;
 		}
-	} else if (currentResizer === RIGHT_RESIZER) {
-		const newRightWidth = startRightWidth - dx;
-		if (newRightWidth >= MIN_WIDTH && newRightWidth <= MAX_WIDTH) {
-			RIGHT_PANEL_DIV.style.width = `${newRightWidth}px`;
-		}
 	}
 }
 
@@ -52,7 +45,4 @@ function onMouseUp() {
 }
 
 LEFT_RESIZER.addEventListener("mousedown", onMouseDown);
-RIGHT_RESIZER.addEventListener("mousedown", onMouseDown);
-
 LEFT_RESIZER.addEventListener("dblclick", () => (LEFT_PANEL_DIV.style.width = "240px"));
-RIGHT_RESIZER.addEventListener("dblclick", () => (RIGHT_PANEL_DIV.style.width = "240px"));

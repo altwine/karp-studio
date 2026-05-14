@@ -68,8 +68,11 @@ const state = EditorState.create({
 				backgroundColor: "#0d1016",
 				color: "#bfbdb6",
 			},
+			".cm-selectionBackground": {
+				backgroundColor: "#1f2127bf",
+			},
 			".cm-activeLine": {
-				backgroundColor: "#1a1d23",
+				backgroundColor: "#1f2127bf",
 			},
 			".cm-gutters": {
 				backgroundColor: "#0d1016",
