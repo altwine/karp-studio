@@ -25,6 +25,7 @@ import { history, defaultKeymap, historyKeymap } from "@codemirror/commands";
 import { highlightSelectionMatches, searchKeymap } from "@codemirror/search";
 import { closeBrackets, autocompletion, closeBracketsKeymap, completionKeymap } from "@codemirror/autocomplete";
 import { lintKeymap } from "@codemirror/lint";
+import { showMinimap } from "@replit/codemirror-minimap";
 
 const state = EditorState.create({
 	doc: EXAMPLE_CODE_SNIPPETS["рыбалка.карп"],
@@ -46,6 +47,13 @@ const state = EditorState.create({
 		crosshairCursor(),
 		highlightActiveLine(),
 		highlightSelectionMatches(),
+		showMinimap.compute(["doc"], () => ({
+			create: () => {
+				const dom = document.createElement("div");
+				return { dom };
+			},
+			showOverlay: "always",
+		})),
 		keymap.of([
 			...closeBracketsKeymap,
 			...defaultKeymap,
