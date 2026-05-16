@@ -49,6 +49,7 @@ EXAMPLES_BUTTON.addEventListener("click", (e) => {
 });
 
 REFERENCE_BUTTON.addEventListener("click", async (e) => {
+	DROPDOWN_CONTAINER.replaceChildren();
 	const resDir = await resourceDir();
 	const guideFiles = await readDir("справка", { baseDir: BaseDirectory.Resource });
 	for (const dir of guideFiles) {

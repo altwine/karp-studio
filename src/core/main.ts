@@ -7,3 +7,4 @@ import "../interpreter/lexer/lexer.ts";
 import "../ui/contextmenu/contextmenu.ts";
 import "../ui/explorer.ts";
 import "../ui/terminal.ts";
+import "../ui/keybinds.ts";

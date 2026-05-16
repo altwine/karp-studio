@@ -1,4 +1,4 @@
-import { RUN_CODE_BUTTON } from "./elements";
+import { REFERENCE_BUTTON, RUN_CODE_BUTTON } from "./elements";
 
 const MOD_KEY_CODES = new Set(["KeyS", "KeyP", "KeyW", "KeyN", "KeyT", "KeyF", "KeyU", "KeyA"]);
 const SHIFT_MOD_KEY_CODES = new Set(["KeyI", "KeyJ", "KeyC"]);
@@ -12,6 +12,12 @@ document.addEventListener("keydown", (e) => {
 
 	if (code === "F5") {
 		RUN_CODE_BUTTON.click();
+		e.preventDefault();
+		return;
+	}
+
+	if (code === "F1") {
+		REFERENCE_BUTTON.click();
 		e.preventDefault();
 		return;
 	}
