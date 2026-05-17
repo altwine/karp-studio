@@ -1,6 +1,7 @@
 import { Terminal } from "@xterm/xterm";
 import "@xterm/xterm/css/xterm.css";
 import { FitAddon } from "@xterm/addon-fit";
+import { WebglAddon } from "@xterm/addon-webgl";
 import { TERMINAL_CONTAINER } from "./elements";
 import { MAIN_WINDOW } from "../core/controls";
 
@@ -30,6 +31,9 @@ export const TERMINAL = new Terminal({
 	},
 	disableStdin: true,
 });
+
+const webglAddon = new WebglAddon();
+TERMINAL.loadAddon(webglAddon);
 
 const fitAddon = new FitAddon();
 TERMINAL.loadAddon(fitAddon);
