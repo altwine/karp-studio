@@ -1,5 +1,5 @@
-import { Terminal } from "xterm";
-import "xterm/css/xterm.css";
+import { Terminal } from "@xterm/xterm";
+import "@xterm/xterm/css/xterm.css";
 import { FitAddon } from "@xterm/addon-fit";
 import { TERMINAL_CONTAINER } from "./elements";
 import { MAIN_WINDOW } from "../core/controls";
