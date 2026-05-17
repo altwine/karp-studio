@@ -37,5 +37,5 @@ TERMINAL.loadAddon(fitAddon);
 TERMINAL.open(TERMINAL_CONTAINER);
 fitAddon.fit();
 
-window.addEventListener("resize", fitAddon.fit);
-MAIN_WINDOW.onResized(fitAddon.fit);
+window.addEventListener("resize", () => fitAddon.fit());
+MAIN_WINDOW.onResized(() => fitAddon.fit());

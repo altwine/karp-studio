@@ -352,6 +352,7 @@ main {
 }
 
 #terminal-container {
+	background-color: var(--color-bg-main);
 	height: 30%;
 	flex-shrink: 0;
 	border-top: 1px solid var(--border-color);
