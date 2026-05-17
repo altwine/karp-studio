@@ -7,6 +7,7 @@ import { MAIN_WINDOW } from "../core/controls";
 
 export const TERMINAL = new Terminal({
 	cursorBlink: true,
+	fontFamily: "JetBrainsMono",
 	theme: {
 		background: "#0d1016",
 		foreground: "#bfbdb6",

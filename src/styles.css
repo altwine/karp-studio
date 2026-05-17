@@ -45,7 +45,7 @@
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
-	font-family: "Consolas", monospace;
+	font-family: "JetBrainsMono", monospace;
 }
 
 html,
@@ -73,6 +73,12 @@ header {
 @font-face {
 	font-family: "Onder";
 	src: url("assets/fonts/font.ttf") format("truetype");
+	font-weight: 500;
+}
+
+@font-face {
+	font-family: "JetBrainsMono";
+	src: url("assets/fonts/mono.ttf") format("truetype");
 	font-weight: 500;
 }
 
