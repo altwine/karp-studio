@@ -1,3 +1,4 @@
+import { resolve } from "path";
 import { defineConfig } from "vite";
 
 const host = process.env.TAURI_DEV_HOST;
@@ -13,6 +14,12 @@ export default defineConfig({
 		terserOptions: {
 			toplevel: true,
 			compress: { passes: 3 },
+		},
+		rollupOptions: {
+			input: {
+				main: resolve(__dirname, "index.html"),
+				graphics: resolve(__dirname, "graphics.html"),
+			},
 		},
 	},
 	server: {

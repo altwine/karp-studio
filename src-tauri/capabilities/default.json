@@ -1,8 +1,8 @@
 {
 	"$schema": "../gen/schemas/desktop-schema.json",
 	"identifier": "default",
-	"description": "Capability for the main window",
-	"windows": ["main"],
+	"description": "Capability for the windows",
+	"windows": ["main", "graphics"],
 	"permissions": [
 		"core:window:allow-minimize",
 		"core:window:allow-is-maximized",
@@ -15,9 +15,16 @@
 		"core:event:allow-listen",
 		"clipboard-manager:allow-write-text",
 		"clipboard-manager:allow-read-text",
+		"core:event:allow-emit",
+		"core:window:allow-show",
+		"core:window:allow-hide",
+		"core:webview:allow-webview-show",
+		"core:webview:allow-create-webview",
+		"core:webview:allow-create-webview-window",
 		"dialog:allow-confirm",
 		"dialog:allow-message",
 		"dialog:allow-open",
+		"process:allow-exit",
 		"fs:read-files",
 		"fs:read-dirs",
 		{

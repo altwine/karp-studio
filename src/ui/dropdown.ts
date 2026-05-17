@@ -1,4 +1,4 @@
-import { MAIN_WINDOW } from "../core/controls";
+import { CURRENT_WINDOW } from "../core/controls";
 import { DROPDOWN_CONTAINER } from "./elements";
 
 let x = 0;
@@ -42,4 +42,4 @@ document.addEventListener("keydown", (e) => {
 	if (e.key === "Escape") hideDropdown();
 });
 
-MAIN_WINDOW.listen("tauri://blur", hideDropdown);
+CURRENT_WINDOW.listen("tauri://blur", hideDropdown);

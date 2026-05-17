@@ -1,3 +1,5 @@
+@import "@xterm/xterm/css/xterm.css";
+
 :root {
 	--header-footer-color: #313337;
 	--color-bg-main: #0d1016;
@@ -65,9 +67,10 @@ header {
 	border-bottom: 1px solid var(--border-color);
 	height: 36px;
 	display: flex;
-	justify-content: space-between;
 	-webkit-app-region: drag;
 	flex-shrink: 0;
+	width: 100%;
+	justify-content: space-between;
 }
 
 @font-face {
@@ -113,6 +116,7 @@ header {
 	font-style: normal;
 	-webkit-app-region: no-drag;
 	user-select: none;
+	text-wrap-mode: nowrap;
 }
 
 #menuBar,

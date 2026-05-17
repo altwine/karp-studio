@@ -1,16 +1,17 @@
+import { openGraphicsOutputWindow, sendDrawData } from "../../ui/graphics";
 import { TERMINAL } from "../../ui/terminal";
 import { interpreterState, OutputCommand } from "../core/interpreter";
-import { Turtle } from "../modules/turtle";
 
 export async function processGenerator(generator: Generator<OutputCommand, void, unknown>) {
-	return new Promise<void>((resolve, reject) => {
-		Turtle.reset();
+	return new Promise<void>(async (resolve, reject) => {
+		sendDrawData({ command: "reset" });
 
 		let generatorDone = false;
 		let commandQueue: OutputCommand[] = [];
 		let currentTimeout: ReturnType<typeof setTimeout> | null = null;
 		let currentInterval: ReturnType<typeof setInterval> | null = null;
 		let isSettled = false;
+		let isGraphicsOutputNeeded = false;
 
 		function clearWaitTimeout() {
 			if (currentTimeout) {
@@ -50,61 +51,11 @@ export async function processGenerator(generator: Generator<OutputCommand, void,
 				}
 
 				if (cmd.type === "turtle") {
-					switch (cmd.command) {
-						case "forward":
-							Turtle.forward(cmd.args[0] as number);
-							break;
-						case "backward":
-							Turtle.backward(cmd.args[0] as number);
-							break;
-						case "right":
-							Turtle.right(cmd.args[0] as number);
-							break;
-						case "left":
-							Turtle.left(cmd.args[0] as number);
-							break;
-						case "penUp":
-							Turtle.setPenUp();
-							break;
-						case "penDown":
-							Turtle.setPenDown();
-							break;
-						case "penWidth":
-							Turtle.setPenWidth(cmd.args[0] as number);
-							break;
-						case "enableGrid":
-							Turtle.enableGrid();
-							break;
-						case "disableGrid":
-							Turtle.disableGrid();
-							break;
-						case "bgColor":
-							if (cmd.args.length === 3) {
-								Turtle.setBgColor(cmd.args[0] as number, cmd.args[1] as number, cmd.args[2] as number);
-							} else {
-								Turtle.setBgColorHex(cmd.args[0] as string);
-							}
-							break;
-						case "penColor":
-							if (cmd.args.length === 3) {
-								Turtle.setPenColor(cmd.args[0] as number, cmd.args[1] as number, cmd.args[2] as number);
-							} else {
-								Turtle.setPenColorHex(cmd.args[0] as string);
-							}
-							break;
-						case "clear":
-							Turtle.clear();
-							break;
-						case "home":
-							Turtle.home();
-							break;
-						case "hideTurtle":
-							Turtle.hide();
-							break;
-						case "showTurtle":
-							Turtle.show();
-							break;
+					if (!isGraphicsOutputNeeded) {
+						isGraphicsOutputNeeded = true;
+						await openGraphicsOutputWindow();
 					}
+					sendDrawData({ command: cmd.command, args: cmd.args });
 				}
 
 				if (cmd.type === "wait") {

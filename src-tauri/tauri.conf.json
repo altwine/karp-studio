@@ -14,12 +14,23 @@
 		"withGlobalTauri": false,
 		"windows": [
 			{
+				"label": "main",
+				"url": "index.html",
 				"backgroundColor": "#1e1e1e",
 				"decorations": false,
-				"title": "Karp Studio",
+				"title": "ИСР КАРП",
 				"width": 1080,
 				"height": 720,
 				"center": true
+			},
+			{
+				"label": "graphics",
+				"title": "ИСР КАРП — Графика",
+				"url": "graphics.html",
+				"width": 400,
+				"height": 400,
+				"visible": false,
+				"decorations": false
 			}
 		],
 		"security": {

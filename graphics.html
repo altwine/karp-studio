@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ru">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>ИСР КАРП — Графика</title>
+		<link rel="stylesheet" href="./src/styles.css" />
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+			}
+			body {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+			canvas {
+				flex: 1;
+				width: 98vw;
+				height: 98vh;
+			}
+		</style>
+		<script type="module" src="./src/ui/icons.ts"></script>
+		<script type="module" src="./src/core/controls.ts"></script>
+		<script type="module" src="./src/graphics.ts"></script>
+	</head>
+	<body>
+		<header>
+			<span id="title">ИСР КАРП</span>
+			<div id="windowControls">
+				<button id="minimizeWindow" class="icon" title="Свернуть окно">minimize</button>
+				<button id="maximizeWindow" class="icon" title="Развернуть окно">ad</button>
+				<button id="closeWindow" class="icon" title="Закрыть окно">close</button>
+			</div>
+		</header>
+		<canvas id="graphics-output" width="300px" height="300px"></canvas>
+	</body>
+</html>

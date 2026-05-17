@@ -1,4 +1,4 @@
-import { MAIN_WINDOW } from "../../core/controls";
+import { CURRENT_WINDOW } from "../../core/controls";
 import { Dialog } from "../dialog";
 import { EDITOR, CONTEXT_MENU, TITLE, TERMINAL_CONTAINER } from "../elements";
 import { TERMINAL } from "../terminal";
@@ -68,7 +68,7 @@ document.addEventListener("keydown", (e) => {
 	if (e.key === "Escape") hideContextMenu();
 });
 
-MAIN_WINDOW.listen("tauri://blur", hideContextMenu);
+CURRENT_WINDOW.listen("tauri://blur", hideContextMenu);
 
 EDITOR.addEventListener("contextmenu", (e) => showContextMenu(e, "editor"));
 TITLE.addEventListener("contextmenu", (e) => showContextMenu(e, "title"));

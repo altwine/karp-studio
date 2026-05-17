@@ -1,13 +1,12 @@
 import { Terminal } from "@xterm/xterm";
-import "@xterm/xterm/css/xterm.css";
 import { FitAddon } from "@xterm/addon-fit";
 import { WebglAddon } from "@xterm/addon-webgl";
 import { TERMINAL_CONTAINER } from "./elements";
-import { MAIN_WINDOW } from "../core/controls";
+import { CURRENT_WINDOW } from "../core/controls";
 
 export const TERMINAL = new Terminal({
 	cursorBlink: true,
-	fontFamily: "JetBrainsMono",
+	fontFamily: '"JetBrainsMono", monospace',
 	theme: {
 		background: "#0d1016",
 		foreground: "#bfbdb6",
@@ -43,4 +42,4 @@ TERMINAL.open(TERMINAL_CONTAINER);
 fitAddon.fit();
 
 window.addEventListener("resize", () => fitAddon.fit());
-MAIN_WINDOW.onResized(() => fitAddon.fit());
+CURRENT_WINDOW.onResized(() => fitAddon.fit());
