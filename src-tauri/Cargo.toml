@@ -1,6 +1,6 @@
 [package]
 name = "karp-studio"
-version = "0.1.3"
+version = "0.1.4"
 description = "Karp Studio app"
 authors = ["altwine"]
 edition = "2021"
