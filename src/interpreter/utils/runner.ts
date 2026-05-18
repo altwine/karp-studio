@@ -1,116 +1,155 @@
-import { openGraphicsOutputWindow, sendDrawData } from "../../ui/graphics";
+import { openGraphicsOutputWindow } from "../../ui/graphics";
 import { TERMINAL } from "../../ui/terminal";
 import { interpreterState, OutputCommand } from "../core/interpreter";
+import { emit, listen } from "@tauri-apps/api/event";
+
+let commandId = 0;
+let ackListeners = new Map<number, (status: string) => void>();
+
+listen("draw-response", (event) => {
+	const { _id, status } = event.payload as any;
+	const handler = ackListeners.get(_id);
+	if (handler) {
+		handler(status);
+		ackListeners.delete(_id);
+	}
+});
+
+async function sendDrawDataWithAck(data: any, id: number, signal?: AbortSignal): Promise<void> {
+	return new Promise((resolve, reject) => {
+		if (signal?.aborted) {
+			return reject(new Error("Interpreter stopped"));
+		}
+		const timeout = setTimeout(() => {
+			if (ackListeners.has(id)) {
+				ackListeners.delete(id);
+				reject(new Error(`Timeout waiting for draw-response for command ${id}`));
+			}
+		}, 100);
+		const handler = (status: string) => {
+			clearTimeout(timeout);
+			if (signal) signal.removeEventListener("abort", onAbort);
+			if (status === "ok") resolve();
+			else reject(new Error(`Command ${id} failed: ${status}`));
+		};
+		const onAbort = () => {
+			clearTimeout(timeout);
+			ackListeners.delete(id);
+			reject(new Error("Interpreter stopped"));
+		};
+		ackListeners.set(id, handler);
+		if (signal) signal.addEventListener("abort", onAbort, { once: true });
+		emit("draw-request", { ...data, _id: id }).catch((err) => {
+			clearTimeout(timeout);
+			ackListeners.delete(id);
+			if (signal) signal.removeEventListener("abort", onAbort);
+			reject(err);
+		});
+	});
+}
 
 export async function processGenerator(generator: Generator<OutputCommand, void, unknown>) {
 	return new Promise<void>(async (resolve, reject) => {
-		sendDrawData({ command: "reset" });
-
+		await sendDrawDataWithAck({ command: "reset" }, commandId++);
 		let generatorDone = false;
 		let commandQueue: OutputCommand[] = [];
-		let currentTimeout: ReturnType<typeof setTimeout> | null = null;
-		let currentInterval: ReturnType<typeof setInterval> | null = null;
+		let isProcessing = false;
 		let isSettled = false;
-		let isGraphicsOutputNeeded = false;
-
-		function clearWaitTimeout() {
-			if (currentTimeout) {
-				clearTimeout(currentTimeout);
-				currentTimeout = null;
-			}
-			if (currentInterval) {
-				clearInterval(currentInterval);
-				currentInterval = null;
-			}
-		}
 
 		function finalize(error?: Error) {
 			if (isSettled) return;
 			isSettled = true;
-			clearWaitTimeout();
-			if (error) {
-				reject(error);
-			} else {
-				resolve();
-			}
+			if (error) reject(error);
+			else resolve();
+		}
+
+		function waitForActiveFalse(): Promise<never> {
+			return new Promise((_, reject) => {
+				const check = setInterval(() => {
+					if (!interpreterState.active) {
+						clearInterval(check);
+						reject(new Error("Interpreter stopped"));
+					}
+				}, 10);
+			});
 		}
 
 		async function processQueue() {
-			const start = performance.now();
-
-			while (commandQueue.length > 0 && performance.now() - start < 16) {
-				if (!interpreterState.active) {
-					finalize(new Error("Interpreter stopped"));
-					return;
-				}
-
+			if (isProcessing) return;
+			isProcessing = true;
+			while (commandQueue.length > 0 && interpreterState.active) {
 				const cmd = commandQueue.shift()!;
-
 				if (cmd.type === "print") {
 					TERMINAL.writeln(cmd.args.join(" "));
+					continue;
 				}
-
 				if (cmd.type === "turtle") {
-					if (!isGraphicsOutputNeeded) {
-						isGraphicsOutputNeeded = true;
-						await openGraphicsOutputWindow();
+					await Promise.race([openGraphicsOutputWindow(), waitForActiveFalse()]);
+					const controller = new AbortController();
+					const checkActive = setInterval(() => {
+						if (!interpreterState.active) controller.abort();
+					}, 10);
+					try {
+						await sendDrawDataWithAck(
+							{ command: cmd.command, args: cmd.args },
+							commandId++,
+							controller.signal,
+						);
+					} finally {
+						clearInterval(checkActive);
 					}
-					sendDrawData({ command: cmd.command, args: cmd.args });
 				}
-
 				if (cmd.type === "wait") {
 					const waitTime = cmd.args[0] as number;
-
-					await new Promise<void>((waitResolve) => {
+					let timeoutId: ReturnType<typeof setTimeout> | null = null;
+					let intervalId: ReturnType<typeof setInterval> | null = null;
+					await new Promise<void>((resolveWait) => {
 						const cleanup = () => {
-							if (currentTimeout) clearTimeout(currentTimeout);
-							if (currentInterval) clearInterval(currentInterval);
-							currentTimeout = null;
-							currentInterval = null;
+							if (timeoutId) clearTimeout(timeoutId);
+							if (intervalId) clearInterval(intervalId);
+							timeoutId = null;
+							intervalId = null;
 						};
-
-						currentTimeout = setTimeout(() => {
+						timeoutId = setTimeout(() => {
 							cleanup();
-							waitResolve();
+							resolveWait();
 						}, waitTime);
-
-						currentInterval = setInterval(() => {
+						intervalId = setInterval(() => {
 							if (!interpreterState.active) {
 								cleanup();
-								waitResolve();
+								resolveWait();
 							}
 						}, 25);
 					});
-
 					if (!interpreterState.active) {
 						finalize(new Error("Interpreter stopped during wait"));
 						return;
 					}
 				}
 			}
-
-			if (!generatorDone || commandQueue.length > 0) {
+			isProcessing = false;
+			if (!interpreterState.active) {
+				finalize(new Error("Interpreter stopped"));
+				return;
+			}
+			if (!generatorDone && commandQueue.length === 0) {
 				setTimeout(processQueue, 0);
-			} else {
+			} else if (generatorDone && commandQueue.length === 0) {
 				finalize();
+			} else if (interpreterState.active) {
+				setTimeout(processQueue, 0);
 			}
 		}
 
 		function pullCommands() {
 			try {
-				while (!generatorDone) {
+				while (!generatorDone && interpreterState.active) {
 					const next = generator.next();
-
-					if (next.done || !interpreterState.active) {
+					if (next.done) {
 						generatorDone = true;
-						if (!interpreterState.active) {
-							finalize(new Error("Interpreter stopped"));
-						}
 						break;
 					}
-
 					commandQueue.push(next.value);
-
 					if (commandQueue.length > 50) {
 						setTimeout(pullCommands, 0);
 						return;
@@ -119,9 +158,12 @@ export async function processGenerator(generator: Generator<OutputCommand, void,
 			} catch (e) {
 				finalize(e instanceof Error ? e : new Error(String(e)));
 			}
+			if (generatorDone && !isProcessing && commandQueue.length > 0) {
+				processQueue().catch(finalize);
+			}
 		}
 
 		pullCommands();
-		processQueue().catch((err) => finalize(err instanceof Error ? err : new Error(String(err))));
+		processQueue().catch(finalize);
 	});
 }
